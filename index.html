@@ -65,9 +65,28 @@ details.chap>summary:hover{background:var(--blue-soft)}
 .cnum{font-size:.88rem;font-weight:700;color:var(--blue)}
 .ctitle{font:600 1rem/1.3 Bitter,Georgia,serif}
 .cprog{font-size:.85rem;color:var(--muted)}
-.cnum::before{content:"▸ "}
-details.chap[open]>summary .cnum::before{content:"▾ "}
+details.chap[open]>summary .cnum::after{content:" (open)";font-weight:500;color:var(--muted)}
 .cold-note{margin-top:1rem}
+
+
+/* dig down */
+.pill{display:inline-block;padding:.1rem .75rem;border-radius:999px;font-weight:700;font-size:.9rem}
+.pill.solid{background:var(--green-soft);color:var(--green)}
+.pill.partial{background:var(--amber-soft);color:var(--amber)}
+.pill.off,.pill.short{background:var(--rose-soft);color:var(--rose)}
+.fb{margin-top:1.1rem;display:grid;gap:.8rem}
+.fb ul{margin:.3rem 0 0;padding-left:1.2rem}
+.fb li{margin:.15rem 0}
+.fb .lbl{color:var(--ink)}
+.callout{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:10px;padding:.8rem 1rem;margin-bottom:.9rem}
+.callout .lbl{color:var(--amber)}
+.callout p{margin:0}
+.callout ul{margin:.3rem 0 0;padding-left:1.2rem}
+.hist{display:grid;gap:.5rem;margin:0 0 1.2rem}
+.hist>div{display:flex;gap:.7rem;align-items:baseline;flex-wrap:wrap;padding:.55rem .85rem;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.pgrid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr))}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:.7rem;align-items:flex-start}
+.pcard h3{font-size:1.2rem}
 
 /* hero */
 .hero{background:var(--navy);color:var(--navy-ink)}
@@ -221,7 +240,7 @@ details.item .row{margin:1rem 0 .7rem}
   <div class="hero-in">
     <div>
       <h1>Follow the logic</h1>
-      <p class="kicker">Biochemistry reasoning practice for chapters 1 to 12 of Lehninger Principles of Biochemistry, 8th edition</p>
+      <p class="kicker">Biochemistry reasoning practice for chapters 1 to 12 of Lehninger Principles of Biochemistry, 8th edition. Ten reasoning chains for every chapter.</p>
       <p class="lede">Memorizing facts does not build understanding. Understanding comes from following the logic: what does this need to be, what do I already know, and where does it fit. Each question here is broken into the steps a biochemist would take. Write your thinking at every step before you check it. After each chain you will connect the idea to everyday life and to medicine.</p>
     </div>
     <div class="prog" aria-live="polite">
@@ -233,6 +252,7 @@ details.item .row{margin:1rem 0 .7rem}
 
 <nav class="tabs" role="tablist" aria-label="Sections of this tool">
   <button type="button" role="tab" id="tab-chains" aria-selected="true" aria-controls="panel-chains">Reasoning chains</button>
+  <button type="button" role="tab" id="tab-probe" aria-selected="false" aria-controls="panel-probe" tabindex="-1">Dig down</button>
   <button type="button" role="tab" id="tab-build" aria-selected="false" aria-controls="panel-build" tabindex="-1">Build your own chain</button>
   <button type="button" role="tab" id="tab-warm" aria-selected="false" aria-controls="panel-warm" tabindex="-1">Warm up questions</button>
   <button type="button" role="tab" id="tab-pile" aria-selected="false" aria-controls="panel-pile" tabindex="-1">Review pile<span class="count" id="pileCount">0</span></button>
@@ -259,6 +279,10 @@ details.item .row{margin:1rem 0 .7rem}
         <div id="chainMain"></div>
       </div>
     </div>
+  </section>
+
+  <section id="panel-probe" role="tabpanel" aria-labelledby="tab-probe" hidden>
+    <div id="probeMain"></div>
   </section>
 
   <section id="panel-build" role="tabpanel" aria-labelledby="tab-build" hidden>
@@ -1783,6 +1807,957 @@ qc(12,"first","A cell does not respond to a hormone. What is the first question 
 qc(12,"predict","What would happen to a G protein signal if the alpha subunit could not hydrolyze GTP?","The G protein would stay active, so the signal would stay on longer than normal, as in cholera toxin.","Ask what normally turns the switch off.");
 qc(12,"connect","Why are kinases and phosphatases both needed in signaling?","Kinases add phosphates to turn pathways on, and phosphatases remove them to turn pathways off, so together they make reversible switches.","A switch needs both on and off controls.");
 
+/* ====== ADDED: Chapter 1 ====== */
+
+nc("c1_groups",1,"Why do functional groups decide how a biomolecule behaves?",[
+ ["What is a functional group, and which ones are common in biomolecules?","A functional group is a small cluster of atoms attached to a carbon skeleton that gives the molecule characteristic chemistry. Common ones are hydroxyl, carbonyl (aldehyde and ketone), carboxyl, amino, sulfhydryl, and phosphate groups.","Now ask what each group does to the molecule’s behavior."],
+ ["How does a functional group change whether a molecule dissolves in water?","Groups that are polar or can carry a charge, such as hydroxyl, carboxyl, amino, and phosphate, interact with water and raise solubility. A hydrocarbon skeleton with none of these groups is nonpolar and dissolves poorly.","Solubility is only one property. What about reactivity?"],
+ ["How do functional groups determine what reactions a molecule can undergo?","Each group has its own characteristic chemistry. Carboxyl and amino groups can join to form amide bonds, hydroxyl and carboxyl groups form esters, sulfhydryl groups form disulfide bonds, and phosphate groups can be transferred.","What does it look like when the same skeleton carries different groups?"],
+ ["Compare ethanol and acetic acid, which both have two carbons. How do their properties differ because of their groups?","Ethanol has a hydroxyl group and is a neutral alcohol. Acetic acid has a carboxyl group, so it can lose a proton and become charged. Same carbon skeleton, very different behavior.",""]
+],
+ "A functional group sets a molecule’s polarity, charge, and reactivity, so identifying the groups lets you predict solubility and chemistry before you know anything else.",
+ "Find the groups on the skeleton first. They tell you how the molecule will behave.",
+ "Rubbing alcohol and vinegar are both small molecules, yet one is a neutral alcohol and the other is an acid that tastes sour, because of their different functional groups.",
+ "Aspirin works partly because of an acetyl group that it transfers to an enzyme, and many drugs are designed by changing a single functional group to improve solubility or binding while keeping the rest of the molecule.");
+
+nc("c1_cells",1,"Why do eukaryotic cells have compartments that bacteria lack?",[
+ ["What features do all cells share, whether bacterial, plant, or animal?","A plasma membrane, DNA as the genetic material, ribosomes that make proteins, and a cytoplasm in which metabolism occurs.","So what separates the major cell types?"],
+ ["What is the key difference between a bacterial cell and a eukaryotic cell?","A eukaryotic cell keeps its DNA in a membrane bound nucleus and has other membrane bound organelles such as mitochondria. A bacterial cell has no nucleus or internal membrane bound organelles, and its DNA sits in a nucleoid region.","Why would a cell add compartments?"],
+ ["What advantages do compartments give a cell?","They keep incompatible reactions apart, concentrate enzymes and substrates, maintain different conditions such as the acidic interior of lysosomes, and protect the DNA and the cell from damaging enzymes.","What does that cost the cell?"],
+ ["What new problems do compartments create, and how do cells solve them?","Molecules and signals must cross membranes, so cells need transport proteins, targeting signals that send proteins to the right place, and vesicles that carry cargo between compartments.",""]
+],
+ "Eukaryotic cells use membrane bound compartments to separate and control chemistry, at the cost of needing machinery to move molecules between them.",
+ "When a cell adds a structure, ask what it separates, what that allows, and what new problem it creates.",
+ "A kitchen with separate stations for raw meat, vegetables, and baking keeps incompatible jobs apart, in the way organelles keep reactions apart.",
+ "Antibiotics such as penicillin and tetracycline exploit differences between bacterial and human cells, and lysosomal storage disorders such as Tay Sachs disease arise when one compartment fails to break down its contents.");
+
+nc("c1_polymers",1,"Why does life build large molecules from a few small building blocks?",[
+ ["What are the main building blocks, and what do they build?","Amino acids build proteins, nucleotides build nucleic acids, and sugars build polysaccharides. Lipids are assembled from fatty acids and glycerol, but they are not true polymers.","What do these building blocks have in common?"],
+ ["How are monomers joined, and what is released?","They are joined by condensation reactions that remove water, forming peptide, phosphodiester, or glycosidic bonds. Breaking the polymer reverses this by adding water, which is hydrolysis.","Why would life choose this strategy?"],
+ ["What is gained by using a small set of monomers in many combinations?","A small set of units can be arranged in an enormous number of sequences, so one set of machinery can make many different polymers. Twenty amino acids give twenty to the power of the length possible proteins.","What does the order of monomers do?"],
+ ["How does the order of units give a polymer its function?","The sequence determines how the chain folds or pairs, which determines its shape, and shape determines what it binds and what it does. That is how a linear chain carries information and function.",""]
+],
+ "Life builds large molecules from a few units joined by condensation so that sequence can carry information and function, with a small toolkit making a huge variety.",
+ "Small parts and a joining rule can generate huge variety, and the order of the parts carries the meaning.",
+ "Twenty six letters make every word in a language, and the order of the letters carries the meaning, which is how twenty amino acids make countless proteins.",
+ "Digestion reverses polymer building by hydrolysis, which is why enzyme deficiencies such as lactase deficiency cause symptoms. Many drugs are small molecules designed to block the enzymes that build polymers in bacteria or viruses.");
+
+nc("c1_couple",1,"How can a cell make an unfavorable reaction happen?",[
+ ["What does a positive free energy change mean for a reaction?","The reaction does not go forward on its own under those conditions, because the products have higher free energy than the reactants. It would need an input of energy.","Cells make many such reactions go. How?"],
+ ["What does it mean to couple two reactions?","Two reactions that share an intermediate or are linked by an enzyme can be treated as one overall reaction, and their free energy changes add. If the sum is negative, the combined process goes forward.","What provides the favorable half?"],
+ ["Which favorable reaction do cells most often use for coupling, and why is it favorable?","Hydrolysis of ATP to ADP and phosphate, which has a large negative free energy change because the products are more stable. Many enzymes link ATP hydrolysis to an unfavorable reaction.","Show the arithmetic."],
+ ["If one reaction has a free energy change of positive 14 kJ/mol and ATP hydrolysis is about negative 30 kJ/mol, what is the coupled total, and does it go?","The total is about negative 16 kJ/mol, so the coupled process goes forward. The unfavorable step is driven by the favorable one.",""]
+],
+ "Cells drive unfavorable reactions by coupling them to a more favorable one, most often ATP hydrolysis, so that the combined free energy change is negative.",
+ "Add the free energy changes of linked reactions. What matters is the total.",
+ "A heavy weight falling on one side of a pulley can lift a lighter weight on the other side, which is how a favorable process can drive an unfavorable one.",
+ "Cells starved of ATP cannot run coupled reactions, so ion pumps and biosynthesis stop, as in a stroke. Drugs that block ATP production in bacteria or parasites rely on the same dependence.");
+
+nc("c1_unity",1,"Why do very different organisms share the same basic biochemistry?",[
+ ["Name some molecules or pathways found in nearly every living thing.","DNA as the genetic material, essentially the same genetic code, ATP as the energy currency, the same twenty amino acids, ribosomes, and central pathways such as glycolysis.","How do you explain such sharing?"],
+ ["What explanation fits best, common design or common ancestry?","Common ancestry. These features arose early in a common ancestor and were kept because they work and because changing core machinery would break everything built on it.","What does that predict about different species?"],
+ ["What does shared biochemistry predict about the proteins of related organisms?","They should have similar sequences and structures, with more similarity between close relatives. Core functions such as DNA replication should be the most conserved.","How can we use that?"],
+ ["How do scientists use this in the laboratory?","They study simple model organisms such as bacteria, yeast, flies, and mice and expect results to carry over to humans, especially for conserved processes. Sequence similarity also lets them guess a new protein’s function.",""]
+],
+ "The shared core of biochemistry reflects common ancestry, which is why conserved machinery lets us use model organisms and compare sequences across species.",
+ "Shared features across different things point to a shared origin, and differences point to where they diverged.",
+ "Yeast makes both bread rise and beer ferment because it runs the same biochemistry in both, and much of that biochemistry is also running in your own cells.",
+ "Drugs are tested in animals and cells because their biochemistry resembles ours. Antibiotics are useful because bacterial machinery, such as the ribosome, is similar enough to be a target but different enough to avoid harming us.");
+
+/* ====== ADDED: Chapter 2 ====== */
+
+nc("c2_heat",2,"Why does water resist temperature change and cool us when it evaporates?",[
+ ["What holds liquid water molecules to each other, and what must be overcome to separate them?","Hydrogen bonds between neighboring molecules. To heat water or evaporate it, energy must go into breaking many of these bonds, not only into speeding up molecules.","What does that do to heat capacity?"],
+ ["What does high heat capacity mean, and why does water have it?","It takes a lot of energy to raise the temperature of water. Part of the added energy goes into breaking hydrogen bonds, so the temperature rises slowly.","Why does evaporation cool?"],
+ ["Why does evaporation cool the surface left behind?","Molecules that escape as vapor carry away a large amount of energy, because freeing them from their hydrogen bonds requires a high heat of vaporization. The remaining liquid loses energy and cools.","What does this do for living organisms?"],
+ ["How do organisms use these properties?","The large amount of water in the body buffers temperature changes, and sweating or panting removes heat through evaporation. Large bodies of water also moderate climates.",""]
+],
+ "Hydrogen bonds absorb energy as water is heated or vaporized, so water warms slowly and cools a surface when it evaporates.",
+ "Connect a bulk property to the molecular interaction that must be overcome.",
+ "A wet towel on your neck cools you as the water evaporates, and steam burns worse than boiling water at the same temperature because steam carries extra heat of vaporization.",
+ "In heat stroke the body cannot lose heat fast enough by sweating. Cooling a patient with wet cloths and fans works through evaporation, and dehydration makes sweating less effective.");
+
+nc("c2_detergent",2,"How does soap clean grease from a dish?",[
+ ["Why does water alone not remove grease?","Grease is nonpolar and water is polar, so they do not mix. Water cannot pull nonpolar droplets off the surface.","What would a cleaning molecule need to be able to do?"],
+ ["What structure does a soap or detergent molecule have?","A charged or polar head and a long nonpolar tail, so it is amphipathic.","How does that structure act on grease?"],
+ ["What happens when many detergent molecules meet a grease droplet in water?","The tails dissolve in the grease and the heads face the water, so the grease becomes coated with a layer that is water friendly. Small coated droplets, or micelles, can be suspended and rinsed away.","Where do we see this in the body?"],
+ ["Where does the body use the same principle?","Bile salts, made from cholesterol, coat dietary fat droplets in the intestine so that lipases can reach the fat and the products can be absorbed.",""]
+],
+ "Detergents have a polar head and a nonpolar tail that coat grease so it can be carried in water, the same principle that bile salts use to digest fat.",
+ "A molecule with two kinds of ends can bridge two kinds of environments.",
+ "Washing hands with soap lifts oils and microbes off skin, and the foam you see is the same molecules arranged at air and water surfaces.",
+ "Soap and alcohol rubs can inactivate enveloped viruses because they disrupt the lipid envelope, and bile duct blockage causes poor fat digestion because bile salts cannot reach the intestine.");
+
+nc("c2_ph",2,"What does pH measure, and why is pure water at pH 7?",[
+ ["What does water do to itself in a tiny fraction of molecules?","A very small fraction of water molecules ionize, transferring a proton from one molecule to another to give a hydronium ion and a hydroxide ion.","How many of each form?"],
+ ["In pure water at 25 degrees Celsius, what are the hydrogen ion and hydroxide ion concentrations, and what is their product?","Each is 10 to the power of negative 7 molar, and their product is 10 to the power of negative 14. The product stays constant at a given temperature.","How is pH defined?"],
+ ["How is pH defined, and why does pure water come out at 7?","pH is the negative logarithm of the hydrogen ion concentration. With 10 to the power of negative 7 molar hydrogen ions, the pH is 7.","What does a change of one pH unit mean?"],
+ ["If a solution drops from pH 7 to pH 4, what happens to the hydrogen ion concentration and to the hydroxide concentration?","Hydrogen ion concentration rises a thousand fold, and hydroxide falls by the same factor, because their product stays at 10 to the power of negative 14.",""]
+],
+ "pH is the negative logarithm of hydrogen ion concentration, and water at 7 reflects its tiny, balanced self ionization. Each pH unit is a tenfold change.",
+ "A logarithmic scale compresses huge ranges, so one unit means a tenfold change.",
+ "Lemon juice is around pH 2, coffee about 5, and household bleach about 12 or 13, and each unit on that scale is a tenfold change.",
+ "The stomach is very acidic, about pH 1.5 to 3.5, while blood is held near 7.4, and urine pH is checked in medicine because it changes with diet, infection, and disease.");
+
+nc("c2_strongweak",2,"Why is acetic acid a weak acid while hydrochloric acid is strong?",[
+ ["What does it mean for an acid to dissociate, and how can that be measured?","An acid HA donates a proton to water, forming A minus and a hydronium ion. The extent is measured by the dissociation constant Ka, or its negative logarithm, pKa.","What do strong and weak refer to?"],
+ ["What is the difference between a strong and a weak acid?","A strong acid dissociates almost completely in water. A weak acid dissociates only partly, so most of it stays as HA.","Why would acids differ?"],
+ ["What makes a conjugate base stable, and how does that affect how much the acid dissociates?","The more stable the conjugate base, the more readily the acid gives up its proton. The chloride ion is very stable, so HCl dissociates fully. The acetate ion is less stable, so acetic acid holds on to most of its protons.","What does pKa tell you?"],
+ ["What does a lower pKa say about an acid?","A lower pKa means a stronger acid that dissociates more at a given pH. A group with a pKa below the surrounding pH is mostly deprotonated, and one with a pKa above it is mostly protonated.",""]
+],
+ "Acid strength reflects how stable the conjugate base is, and pKa measures it. A lower pKa means a stronger acid.",
+ "Compare the stability of the products to predict how far a reaction goes.",
+ "Vinegar can be eaten while a bottle of pure hydrochloric acid cannot, partly because acetic acid is a weak acid and vinegar is also fairly dilute.",
+ "The stomach makes hydrochloric acid, and antacids neutralize it with weak bases such as bicarbonate or magnesium hydroxide. Drugs that are weak acids or bases change charge with the pH of the stomach, blood, or urine, which changes how well they are absorbed.");
+
+nc("c2_hydrolysis",2,"Why do hydrolysis and condensation reactions depend on water?",[
+ ["What is a condensation reaction, and what does it release?","Two molecules join and a molecule of water is removed. Peptide bonds, glycosidic bonds, and phosphodiester bonds form this way.","What is the reverse?"],
+ ["What is hydrolysis, and where do we see it?","Hydrolysis breaks a bond by adding water. Digestion of protein, starch, and fat, and the hydrolysis of ATP, are all examples.","If water is so abundant, why do bonds in cells not hydrolyze on their own?"],
+ ["Why are many bonds stable in water even though hydrolysis is favorable?","The reaction is thermodynamically favorable but kinetically slow, because the activation energy is high. The bonds persist until an enzyme speeds up hydrolysis.","How do cells form bonds in a watery environment, then?"],
+ ["How do cells build polymers when the surrounding medium is water?","They couple condensation to a favorable reaction such as ATP hydrolysis, often by activating the building block first, and enzymes bring the reactants together away from bulk water.",""]
+],
+ "Condensation removes water and hydrolysis adds it. Hydrolysis is favorable but slow without enzymes, so cells control it, and they drive building reactions by coupling to ATP.",
+ "Favorable does not mean fast. Ask separately about direction and speed.",
+ "A box of cornstarch on a shelf lasts for years even though water could in principle hydrolyze starch, because without enzymes the reaction is extremely slow. Chewing starch turns it sweet as salivary amylase hydrolyzes it.",
+ "Digestive enzymes hydrolyze food polymers, and enzyme deficiencies such as lactase deficiency cause symptoms. Drugs that block HIV protease target an enzyme that catalyzes hydrolysis of peptide bonds.");
+
+/* ====== ADDED: Chapter 3 ====== */
+
+nc("c3_aaclasses",3,"How can you group the twenty amino acids, and why does the side chain matter?",[
+ ["What is the same in every amino acid, and what differs?","Each has an alpha carbon with an amino group, a carboxyl group, and a hydrogen. The side chain, or R group, differs and gives each amino acid its identity.","How can side chains be grouped?"],
+ ["Into what main classes do side chains fall?","Nonpolar aliphatic, aromatic, polar but uncharged, positively charged, and negatively charged.","What does each class do in a folded protein?"],
+ ["Where would you expect each class to be found in a soluble protein?","Nonpolar side chains tend to be buried in the core, away from water. Charged and polar side chains tend to be on the surface where they interact with water, and some form ion pairs or hydrogen bonds inside.","Which amino acids are special?"],
+ ["What is special about glycine, proline, and cysteine?","Glycine has only a hydrogen as its side chain, so it fits in tight spaces. Proline’s ring restricts rotation and creates kinks. Cysteine’s thiol can form disulfide bonds.",""]
+],
+ "Side chains differ in size, polarity, and charge, and those properties decide where each amino acid sits in a protein and what it does.",
+ "Group things by the property that decides their behavior, then predict where each group belongs.",
+ "The savory taste called umami comes from the free amino acid glutamate, and the sweetener aspartame is built from two amino acids.",
+ "A change in one side chain can cause disease, as when valine replaces glutamate in sickle hemoglobin, and phenylalanine builds up in phenylketonuria when it is not processed.");
+
+nc("c3_essential",3,"What makes an amino acid essential?",[
+ ["What does essential mean in nutrition?","A molecule the body needs but cannot make in sufficient amounts, so it must come from the diet.","Which amino acids are like that?"],
+ ["Roughly how many amino acids are essential for adult humans, and why can we not make them?","Nine, including leucine, lysine, and phenylalanine. We lack the enzymes for the long or complex pathways that make them, which are present in plants and microbes.","What follows for diet?"],
+ ["Why does a diet low in one essential amino acid limit protein synthesis?","Proteins need all twenty amino acids. If one is missing, synthesis stalls at that position, so the limiting amino acid sets how much protein can be built.","How do people on plant based diets deal with this?"],
+ ["How do vegetarians meet their needs?","They combine foods with different strengths, such as grains low in lysine with legumes rich in lysine, and eat enough variety over the day.",""]
+],
+ "Essential amino acids are those humans cannot make, so diet must supply them, and the scarcest one limits how much protein the body can build.",
+ "A process that needs all its parts is limited by the scarcest one.",
+ "Rice and beans together provide a better balance of amino acids than either alone, and protein labels discuss limiting amino acids such as lysine.",
+ "In phenylketonuria the body cannot process the essential amino acid phenylalanine, so affected people follow a restricted diet, and severe protein deficiency in children, such as kwashiorkor, causes swelling and wasting.");
+
+nc("c3_peptide",3,"How is a peptide bond made, and why is it stable yet cut during digestion?",[
+ ["What reaction joins two amino acids, and what is released?","The carboxyl group of one amino acid reacts with the amino group of the next in a condensation reaction that releases water and forms a peptide bond.","Why would the product be stable?"],
+ ["Why is the peptide bond so stable in water?","Resonance gives the carbon to nitrogen bond partial double bond character, and without a catalyst hydrolysis is extremely slow, with a half life of hundreds of years.","So how is it ever cut?"],
+ ["How do cells and the gut cut peptide bonds?","Proteases, such as pepsin, trypsin, and chymotrypsin, speed up hydrolysis by activating water and stabilizing the transition state, and each prefers particular side chains.","What does a peptide chain have at each end?"],
+ ["What are the ends of a peptide called, and how are sequences written?","One end has a free amino group, the N terminus, and the other has a free carboxyl group, the C terminus. Sequences are written from the N terminus to the C terminus, the direction in which the protein is made.",""]
+],
+ "A peptide bond forms by condensation, is stabilized by resonance, and is cut only when a protease provides a catalyst. Chains have direction, from N terminus to C terminus.",
+ "Stable bonds are broken by catalysts, not by waiting. Ask which enzyme does the cutting.",
+ "Gelatin dessert made with fresh pineapple fails to set because pineapple contains a protease, bromelain, that cuts the gelatin protein chains.",
+ "Protease inhibitors treat HIV and hepatitis C by blocking viral enzymes that cut protein chains, and a deficiency of digestive proteases causes poor protein digestion.");
+
+nc("c3_titration",3,"How does an amino acid behave when you titrate it with acid and base?",[
+ ["What groups on glycine can gain or lose a proton?","The carboxyl group and the amino group. At very low pH both are protonated, giving a net positive charge.","What happens as base is added?"],
+ ["As base is added to glycine, in what order do the groups lose protons, and what is the charge in between?","The carboxyl group loses its proton first, with a pKa near 2.3, giving a molecule with both a positive and a negative charge and a net charge of zero, called a zwitterion. The amino group loses its proton later, with a pKa near 9.6.","Where are the buffering regions?"],
+ ["Where on the curve does glycine buffer well, and what does the flat part of the curve mean?","Near each pKa the pH changes slowly as base is added because both forms are present. The flat regions are buffering regions.","How do you find the isoelectric point?"],
+ ["How do you find the isoelectric point for glycine, and what is the net charge there?","The isoelectric point is the average of the two pKa values, about 6, where the net charge is zero.",""]
+],
+ "A titration curve maps charge against pH. Flat regions mark pKa values where the molecule buffers, and the isoelectric point lies between them.",
+ "A titration curve is a map of charge against pH. Flat regions mark pKa values.",
+ "Milk proteins curdle when acid brings the pH near their isoelectric point, which is how yogurt and many cheeses form.",
+ "Doctors use the pH dependence of charge to separate proteins by electrophoresis in blood tests, and knowing the charge of amino acids helps explain how drugs bind to receptors.");
+
+nc("c3_seq",3,"How can you work out the amino acid sequence of a protein?",[
+ ["What do you need to know about the protein before you can sequence it?","It should be pure, and you should know whether it has one chain or several, since chains and disulfide bonds must be separated and reduced first.","How do you read a long chain?"],
+ ["Why is a long protein cut into smaller pieces before sequencing?","Direct chemical sequencing works well only on short stretches. Specific proteases or chemicals cut the chain at known amino acids into fragments that can be read.","How are fragments read?"],
+ ["How does mass spectrometry help read a peptide?","It measures the mass of the peptide and of the fragments it breaks into. The differences between fragment masses match the masses of individual amino acids, which reveals the order.","How do you put the pieces together?"],
+ ["How do you rebuild the whole sequence from fragments, and what shortcut is used today?","Use two different cutting methods so the fragments overlap, and match the overlaps. Today the sequence is usually predicted from the gene sequence, and mass spectrometry confirms the protein and its modifications.",""]
+],
+ "To sequence a protein, cut it into readable fragments, read each by chemistry or mass spectrometry, and use overlaps to rebuild the whole order.",
+ "To read something long, cut it into overlapping pieces you can read, then reassemble.",
+ "Food testing labs use mass spectrometry to detect small amounts of allergen proteins, such as peanut, in foods.",
+ "Mass spectrometry of proteins identifies disease markers in blood and checks that protein drugs, such as insulin, have the right sequence.");
+
+nc("c3_evo",3,"Why can a protein’s sequence reveal its evolutionary relatives?",[
+ ["What does a protein’s sequence record about its history?","Changes accumulate in a gene over time, so related species have similar sequences and more distant ones have more differences.","Which positions can change freely?"],
+ ["Which positions in a protein tolerate change, and which do not?","Surface positions and changes to chemically similar amino acids often do little. The active site and the buried core usually cannot change without loss of function, so they stay the same across species.","What does conservation tell you?"],
+ ["If one position is identical in the protein from humans, yeast, and bacteria, what does that suggest?","That the position is essential for the protein’s function or structure, because changes there were removed by selection.","How do you use that?"],
+ ["How do researchers use sequence comparison to predict the function of a new protein?","They search databases for similar sequences, for example with a BLAST search, and assume that a protein with high similarity to a known protein has a related function, especially if conserved residues match.",""]
+],
+ "Sequences change slowly where function matters and quickly where it does not, so comparing sequences shows relatedness and highlights the positions that matter most.",
+ "What stays the same across very different organisms is usually what matters most.",
+ "Consumer ancestry tests and family trees use the same idea: the more similar two DNA sequences are, the more recent their common ancestor.",
+ "Doctors judge whether a new gene variant is likely to be harmful by asking whether the changed position is conserved across species, and sequence comparison helps track which strains of a virus are related.");
+
+/* ====== ADDED: Chapter 4 ====== */
+
+nc("c4_levels",4,"How do the four levels of protein structure build on each other?",[
+ ["What is the primary structure, and what bond holds it together?","The linear sequence of amino acids joined by peptide bonds.","What does the sequence allow?"],
+ ["What is secondary structure, and what holds it together?","Local repeating shapes, such as the alpha helix and beta sheet, held together by hydrogen bonds between backbone groups.","How do these pieces fit together?"],
+ ["What is tertiary structure, and what interactions are involved?","The overall three dimensional fold of one chain. It is held by side chain interactions, mainly the packing of nonpolar side chains in the core, along with hydrogen bonds, ion pairs, and sometimes disulfide bonds.","What if a protein has several chains?"],
+ ["What is quaternary structure, and why do many proteins have it?","The arrangement of two or more chains in one complex. Subunits allow cooperation, regulation, and building large structures from repeated parts, as in hemoglobin.",""]
+],
+ "Sequence sets local shapes, local shapes pack into a fold, and folded chains can assemble into complexes. Each level builds on the one before it.",
+ "Each level builds on the one before it. Start at the sequence and ask what shape it allows.",
+ "A string of beads is the sequence, the string wound into coils is secondary structure, and the wound string packed into a ball is the final fold.",
+ "Sickle cell disease changes one amino acid in the primary structure, which alters quaternary behavior as hemoglobin forms fibers, showing how a change at one level reaches all the others.");
+
+nc("c4_collagen",4,"Why is collagen a triple helix rich in glycine and proline?",[
+ ["What is collagen, and where is it found?","The most abundant protein in animals, forming the strong fibers in skin, tendon, bone, cartilage, and blood vessel walls.","What makes it strong?"],
+ ["Why does collagen contain glycine at every third position?","Three chains wind around each other, and at the center there is room only for the smallest side chain, a hydrogen. Glycine at every third position lets the chains pack tightly.","What do proline and hydroxyproline do?"],
+ ["What do proline and hydroxyproline contribute?","Proline’s ring limits rotation and holds each chain in the helical shape. Hydroxyproline adds hydroxyl groups that form hydrogen bonds between chains and stabilize the triple helix.","What does making hydroxyproline require?"],
+ ["What does the enzyme that makes hydroxyproline need, and what happens without it?","It needs iron kept in its reduced form by vitamin C. Without vitamin C, collagen is poorly hydroxylated and unstable, causing the bleeding gums, poor wound healing, and fragile vessels of scurvy.",""]
+],
+ "Glycine at every third position allows tight packing, proline and hydroxyproline stiffen and stabilize the helix, and vitamin C is needed to make hydroxyproline.",
+ "A repeating sequence pattern usually means a repeating structure.",
+ "Slow cooking turns the collagen in tough meat into gelatin, which is why stews become tender and why gelatin sets into a gel when cooled.",
+ "Scurvy shows what happens when collagen cannot be made properly, and inherited changes in collagen genes cause conditions such as osteogenesis imperfecta, with brittle bones, and some forms of Ehlers Danlos syndrome.");
+
+nc("c4_silk",4,"Why is silk strong but flexible, while hair stretches and springs back?",[
+ ["What structure does silk fibroin form, and what repeats in its sequence?","Silk is made of stacked beta sheets, with a repeating sequence rich in glycine and alanine, so small side chains pack closely.","Why would that make a strong fiber?"],
+ ["Why are beta sheets strong along the chain yet flexible in bending?","The chains are fully extended and held in sheets by many hydrogen bonds. Pulling along the chain stretches strong covalent bonds, while the sheets can slide and bend against each other through weak van der Waals contacts.","What about hair?"],
+ ["What is the structure of the keratin in hair and wool?","Alpha keratin has alpha helices wound together into coiled coils and packed in bundles, with many disulfide cross links between chains.","How does that explain stretch?"],
+ ["Why does hair stretch and recoil, and how do disulfides affect hardness?","Stretching uncoils the helices, and they coil up again when the force is removed. More disulfide cross links make the material harder, as in horn and nail.",""]
+],
+ "Silk is strong because of extended beta sheets and flexible because the sheets slide, while keratin stretches by uncoiling helices and gains hardness from disulfide cross links.",
+ "Structure sets mechanical properties. Ask what is bonded, in what direction, and how strongly.",
+ "Wool can shrink and distort in a hot wash because heat and agitation disturb its structure, and silk is prized because its sheets give a strong but supple fiber.",
+ "Silk fibroin is used for some surgical sutures and in tissue engineering, and mutations in keratin genes cause some blistering skin disorders.");
+
+nc("c4_domains",4,"How do proteins reuse parts, and what is a domain?",[
+ ["What is a protein domain?","A region of about 50 to 300 amino acids that folds independently into a compact structure and often performs a specific function.","Why would that be useful?"],
+ ["What does it mean that a large protein is modular?","It is made of several domains, each with its own job, such as binding DNA, binding a ligand, or catalyzing a reaction, connected by flexible linkers.","How does that help in evolution?"],
+ ["How can evolution use domains?","Genes can duplicate and rearrange the regions that code for domains, producing new proteins by combining existing, proven parts, much like using standard building blocks.","How can this go wrong?"],
+ ["How can domain rearrangements cause disease?","Fusion of two genes can join a signaling domain to a domain that keeps it always active, as in the BCR ABL fusion kinase in chronic myeloid leukemia.",""]
+],
+ "Domains are independent folding units with specific jobs, and evolution assembles new proteins by combining them. Rearrangements can also cause disease.",
+ "Complex things are often assembled from reusable modules.",
+ "Building with standard blocks lets people make many different structures from the same pieces, and proteins use the same idea.",
+ "Drugs such as imatinib target a specific kinase domain, and engineered antibodies and fusion proteins combine domains from different proteins to make therapies.");
+
+nc("c4_amyloid",4,"Why do some proteins form amyloid fibrils, and why are they so hard to clear?",[
+ ["What is an amyloid fibril?","A long, unbranched fiber made of many copies of a protein stacked in beta sheets, in a cross beta arrangement in which the strands run perpendicular to the fiber axis.","Why would a normal protein do this?"],
+ ["Under what conditions can a normally soluble protein form fibrils?","When it is partly unfolded, mutated, too concentrated, or cleaved, so that stretches that are normally hidden are exposed and stack with other copies.","How does the fiber begin?"],
+ ["How do fibrils start and grow, and what does that explain about seeding?","A slow nucleation step forms a small seed, and then monomers add rapidly to the ends. Adding preformed seeds skips the slow step, so aggregation can spread from one place to another.","Why are fibrils so stable?"],
+ ["Why are fibrils so stable, and why does that make disease hard to treat?","Many backbone hydrogen bonds and tight packing hold the beta sheets, making them resistant to proteases and to cell clearance, so they accumulate over years.",""]
+],
+ "Amyloid forms when exposed stretches of a protein stack into beta sheets, starting with a slow nucleation step and then growing fast, and the fibrils resist clearance.",
+ "A slow start followed by fast growth gives a lag and then a rapid rise. Seeds remove the lag.",
+ "A cooked egg white shows protein aggregation in the kitchen, although the clumps in egg white are a different kind from disease fibrils.",
+ "Amyloid beta and tau aggregates are central to Alzheimer disease, alpha synuclein aggregates in Parkinson disease, and amylin deposits occur in type 2 diabetes. Some therapies are antibodies that target amyloid beta.");
+
+nc("c4_prion",4,"How can a misfolded protein act as an infectious agent?",[
+ ["What is a prion, and what is it made of?","A prion is an infectious form of a normal protein, PrP, made only of protein and with no nucleic acid.","What differs between the normal and infectious forms?"],
+ ["What is the difference between normal PrP and the infectious form?","They have the same amino acid sequence but different folding. Normal PrP is rich in alpha helices, and the infectious form is rich in beta sheet and tends to aggregate.","How does the infectious form spread?"],
+ ["How does one misfolded molecule convert others?","The misfolded form acts as a template. It binds normal PrP and induces it to refold into the same shape, so the amount of the misfolded form grows.","Why is it so hard to get rid of?"],
+ ["Why are prions resistant to ordinary sterilization?","They are very stable aggregates that resist heat, radiation, and many protein destroying treatments, so special procedures are used for instruments exposed to them.",""]
+],
+ "A prion is a misfolded protein with the same sequence as the normal one that templates its own spread, and its stability makes it hard to destroy.",
+ "Same sequence, different fold, different behavior.",
+ "Fear of mad cow disease led to rules about feeding animal remains to cattle and about which beef parts can be sold.",
+ "Prions cause Creutzfeldt Jakob disease, kuru, and bovine spongiform encephalopathy. Hospitals use special sterilization for instruments used in suspected cases, and similar templated misfolding is being studied in Alzheimer and Parkinson disease.");
+
+/* ====== ADDED: Chapter 5 ====== */
+
+nc("c5_kd",5,"What does Kd tell you about how tightly a protein binds its ligand?",[
+ ["What fraction of binding sites is occupied at a given ligand concentration?","The fraction occupied, theta, equals the ligand concentration divided by the sum of the ligand concentration and Kd. It rises with ligand and levels off near one.","What does Kd equal on that curve?"],
+ ["At what ligand concentration are half of the sites occupied?","When the ligand concentration equals Kd, theta is one half. So Kd is the concentration that half fills the sites.","What does a small Kd mean?"],
+ ["What does a small Kd mean, compared with a large Kd?","A small Kd means that little ligand is needed to fill half the sites, so binding is tight. A large Kd means weak binding.","How does that help you compare two proteins or drugs?"],
+ ["If one drug has a Kd of 1 nanomolar and another has a Kd of 1 micromolar for the same target, which binds more tightly, and by how much?","The first binds a thousand times more tightly. At a given concentration it would occupy far more of the target sites.",""]
+],
+ "Kd is the ligand concentration at which half the binding sites are filled. A smaller Kd means tighter binding.",
+ "Reduce a curve to one number that is easy to compare, and then ask what the number means.",
+ "A parking lot fills as more cars arrive, and the number of cars needed to fill half the spaces is like Kd.",
+ "Drug potency depends on Kd. Antibody drugs are chosen for tight binding, and doctors must give enough drug to occupy a high fraction of the target sites without causing side effects.");
+
+nc("c5_induced",5,"What is induced fit, and how does a protein change shape when it binds?",[
+ ["Compare the lock and key model with induced fit.","In the lock and key model a rigid binding site matches the ligand exactly. In induced fit, the protein changes shape when the ligand binds, improving the fit.","Why would flexibility help?"],
+ ["Why would a protein evolve a binding site that changes shape?","Shape change can bring catalytic groups into position, exclude water, and make binding tighter once the right ligand is present, while allowing a wrong ligand to be rejected.","Give an example."],
+ ["How does hexokinase illustrate induced fit?","When glucose binds, the two lobes of hexokinase close around it and exclude water, so that ATP transfers its phosphate to glucose and not to water.","What does shape change allow for regulation?"],
+ ["How does a shape change allow regulation?","Binding at one site can change the shape of another site, which is the basis of allosteric regulation and cooperativity, as in hemoglobin.",""]
+],
+ "Binding often reshapes the protein, improving the fit, excluding water, and linking one site to another. That flexibility is the basis of regulation.",
+ "A binding site is not a rigid lock. Ask what changes when the ligand arrives.",
+ "A baseball glove molds around the ball as you catch it, a bit like a binding site closing around its ligand.",
+ "Many drugs bind an active shape or lock a protein in an inactive one, and flexible proteins can become resistant to drugs when mutations shift the balance of shapes.");
+
+nc("c5_heme",5,"Why does myoglobin need heme, and what does the iron do?",[
+ ["Why can amino acid side chains alone not bind oxygen well?","None of the twenty side chains binds a small molecule such as oxygen both strongly and reversibly. Proteins often add a nonprotein group, called a prosthetic group, to do chemistry that amino acids cannot.","What does myoglobin use?"],
+ ["What is heme, and what does the iron do?","Heme is a flat ring, protoporphyrin, with an iron ion at its center. Iron in the ferrous state, Fe2+, binds oxygen reversibly.","What does the protein add?"],
+ ["How does the globin protein help the iron bind oxygen without being damaged?","The globin pocket holds the heme, positions a histidine to bind the iron on one side, places another histidine near the oxygen site to stabilize bound oxygen, and keeps water away so that the iron is not oxidized.","What happens if the iron is oxidized?"],
+ ["What happens if the iron becomes Fe3+, and what else binds the iron?","Fe3+ cannot bind oxygen, which is the situation in methemoglobin. Carbon monoxide and cyanide also bind iron groups, blocking oxygen transport or use.",""]
+],
+ "Amino acids cannot bind oxygen well, so myoglobin uses heme iron and the globin pocket tunes and protects it so that oxygen binds reversibly.",
+ "When amino acids cannot do a job, proteins borrow a helper and then tune it.",
+ "The red color of meat comes from myoglobin, and the color shifts from purple red to bright red when oxygen binds and to brown when the iron oxidizes as meat ages.",
+ "Methemoglobinemia, caused by some drugs or inherited conditions, reduces oxygen delivery and can make blood look chocolate brown, and carbon monoxide poisoning can occur silently from faulty heaters.");
+
+nc("c5_elisa",5,"How does an ELISA detect a very small amount of a molecule?",[
+ ["What does the test need to do?","Detect and measure a specific molecule, the antigen, in a complex mixture such as blood, at very low concentration.","What provides specificity?"],
+ ["In a sandwich ELISA, what happens to the antigen?","A capture antibody stuck to the plate binds the antigen from the sample, then a second antibody binds a different site on the antigen, forming a sandwich.","How is the sandwich detected?"],
+ ["How is the signal produced and amplified?","The second antibody carries an enzyme that converts a colorless substrate into a colored product. One enzyme makes many colored molecules, which amplifies the signal.","How is it quantified?"],
+ ["How do you turn color into a concentration, and what controls do you need?","Measure the color of known standards to make a curve, and read the unknown from it. Include negative controls and blanks to detect background and false signals.",""]
+],
+ "An ELISA uses two antibodies for specificity and an enzyme that makes many colored molecules for amplification, and standards turn color into concentration.",
+ "Specificity comes from binding, sensitivity comes from amplification, and quantity comes from standards.",
+ "Home pregnancy tests and rapid antigen tests use antibodies in a similar way to produce a visible line.",
+ "ELISA tests screen for infections such as HIV and hepatitis, and measure hormones and cardiac markers.");
+
+nc("c5_motors",5,"How do cells use tracks and motor proteins to move cargo?",[
+ ["What are the main parts of the cytoskeleton?","Actin filaments, microtubules, and intermediate filaments, which give shape and act as tracks.","What moves along them?"],
+ ["What are kinesin and dynein, and how do they move?","Motor proteins that walk along microtubules by cycles of binding, changing shape, and releasing, powered by ATP hydrolysis. Kinesin moves mostly toward the plus end and dynein toward the minus end.","What do they carry?"],
+ ["What cargo do motor proteins carry, and why do long cells need them?","Vesicles, mitochondria, and proteins. In a long axon, diffusion would take far too long, so motors carry cargo over distances of centimeters or more.","What stabilizes the tracks?"],
+ ["What happens to transport if the tracks or motors fail?","Cargo does not arrive, nerve endings starve and degenerate, and neurodegenerative disease can follow. Proteins such as tau help stabilize microtubules in neurons.",""]
+],
+ "Motor proteins use ATP to walk along cytoskeletal tracks and deliver cargo, which long cells such as neurons depend on.",
+ "When diffusion is too slow, cells build a delivery system with tracks and motors.",
+ "A railway that carries freight along fixed tracks is a good picture of motor proteins moving cargo on microtubules.",
+ "Paclitaxel stabilizes microtubules and vincristine blocks their assembly, which stops cancer cells from dividing, and colchicine treats gout by disrupting microtubules in white cells. Disrupted transport is part of Alzheimer disease and other neurodegenerative disorders.");
+
+/* ====== ADDED: Chapter 6 ====== */
+
+nc("c6_cofactor",6,"Why do some enzymes need vitamins or metal ions?",[
+ ["What can amino acid side chains not do well that some reactions require?","They cannot easily carry electrons, transfer small groups such as acetyl or methyl groups, or stabilize certain charges. Enzymes recruit helpers called cofactors.","What kinds of helpers are there?"],
+ ["What is the difference between a metal ion cofactor and a coenzyme?","A metal ion cofactor such as zinc, magnesium, or iron helps with charge and bonding. A coenzyme is an organic molecule, often derived from a vitamin, that carries electrons or chemical groups.","Which vitamins give coenzymes?"],
+ ["Give examples of vitamins and the coenzymes made from them.","Niacin gives NAD+ and NADP+, riboflavin gives FAD, thiamine gives thiamine pyrophosphate, and pantothenic acid gives coenzyme A.","What happens when a vitamin is missing?"],
+ ["What happens when the vitamin is missing from the diet?","The enzymes that need the coenzyme cannot work, and the pathways stop, causing deficiency diseases.",""]
+],
+ "Enzymes use metal ions and coenzymes, many made from vitamins, to do chemistry that amino acids cannot, so a missing vitamin stops specific enzymes.",
+ "When a job is beyond the parts you have, bring in a helper. Then ask what happens when the helper is missing.",
+ "Enriched flour and breakfast cereals are fortified with B vitamins because enzymes in your cells need the coenzymes made from them.",
+ "Niacin deficiency causes pellagra, and thiamine deficiency causes beriberi and, in alcohol use disorder, Wernicke encephalopathy. These were first recognized as diet diseases.");
+
+nc("c6_irrev",6,"How is irreversible inhibition different from reversible inhibition?",[
+ ["What does reversible inhibition mean, and how can you recover enzyme activity?","The inhibitor binds noncovalently and can come off, so removing it or adding more substrate restores activity.","What would irreversible inhibition do?"],
+ ["What does an irreversible inhibitor do to an enzyme?","It forms a covalent bond or a very tight complex with the enzyme, permanently disabling it. Activity returns only when new enzyme is made.","How can you tell by experiment?"],
+ ["How would dialysis or dilution distinguish the two kinds?","Activity returns after dialysis for a reversible inhibitor but not for an irreversible one.","What is a suicide inhibitor?"],
+ ["What is a mechanism based, or suicide, inhibitor?","A molecule that looks like a normal substrate and is processed by the enzyme into a reactive form that then binds covalently to the active site.",""]
+],
+ "Reversible inhibitors can leave and activity returns, while irreversible inhibitors bond permanently, so activity returns only when new enzyme is made.",
+ "Ask whether the effect can be undone, and design a test that tells.",
+ "Many insecticides that act on the nervous system of pests work by irreversibly inhibiting acetylcholinesterase.",
+ "Aspirin irreversibly acetylates cyclooxygenase and penicillin irreversibly inhibits bacterial cell wall enzymes. Because the effect lasts until new enzyme is made, low dose aspirin acts for the life of a platelet.");
+
+nc("c6_phtemp",6,"Why does an enzyme work best at one pH and one temperature?",[
+ ["What happens to reaction rate as temperature rises?","Molecules move faster and collide more often, and more have enough energy to react, so the rate increases.","So why is there an optimum?"],
+ ["What limits the increase, and what does the curve look like?","At higher temperatures the enzyme begins to unfold and lose activity. The rate rises, reaches a peak, and then falls sharply.","What about pH?"],
+ ["Why does activity depend on pH?","Side chains in the active site must be in the right protonation state to bind the substrate and catalyze. Away from the optimum pH their charges change, and extreme pH can denature the protein.","Do all enzymes share the same optimum?"],
+ ["Compare pepsin and trypsin.","Pepsin works in the acidic stomach and has an optimum near pH 2, while trypsin works in the small intestine near pH 8. Each enzyme is adapted to where it works.",""]
+],
+ "Activity rises with temperature until unfolding takes over, and it depends on side chain charge, so each enzyme has an optimum matched to its setting.",
+ "Two opposing effects give an optimum. Name both.",
+ "Fresh pineapple, kiwi, and papaya stop gelatin from setting because of their proteases, but canned fruit has been heated, so its enzymes are denatured and gelatin sets.",
+ "A very high fever can impair enzymes, and enzymes of the stomach and intestine depend on local pH, so drugs that reduce stomach acid can change how some other drugs are absorbed.");
+
+nc("c6_isozyme",6,"How can the same reaction be catalyzed by different forms of an enzyme?",[
+ ["What is an isozyme?","Different forms of an enzyme that catalyze the same reaction but have different amino acid sequences and different properties, often found in different tissues.","Why would an organism have several?"],
+ ["Why might heart and muscle have different forms of lactate dehydrogenase?","The forms differ in affinity and regulation, suiting each tissue’s needs. Heart has a form that suits using lactate aerobically, and muscle has a form that favors making lactate.","How do hexokinase and glucokinase compare?"],
+ ["How do hexokinase and glucokinase differ, and why does it matter?","Hexokinase has a low Km for glucose and works even when blood sugar is low. Glucokinase in the liver has a much higher Km, so it acts mainly when blood glucose is high after meals.","How can isozymes help in diagnosis?"],
+ ["How are isozymes useful as medical markers?","A tissue releases its own isozyme when damaged, so the form found in blood points to the damaged organ, such as the MB form of creatine kinase from heart muscle.",""]
+],
+ "Isozymes tune the same reaction to different tissues and conditions through different kinetics and regulation, and their tissue specificity makes them useful markers.",
+ "Same reaction, different settings. Ask what each setting needs.",
+ "Different tools can do the same job, such as a small knife and a large one, but each suits a different task.",
+ "Creatine kinase MB and troponin are used as markers of heart muscle damage, and mutations in glucokinase cause a form of diabetes.");
+
+nc("c6_ribozyme",6,"How can RNA act as an enzyme?",[
+ ["What properties does a catalyst need?","A way to bind the substrate specifically, a shape that stabilizes the transition state, and groups that help the chemistry.","Can RNA provide those?"],
+ ["How can an RNA molecule provide those properties?","RNA can fold into complex three dimensional shapes held by base pairing and stacking, bind metal ions such as magnesium, and position groups to bind a substrate and catalyze a reaction.","Where are ribozymes found?"],
+ ["Give examples of natural ribozymes.","The peptidyl transferase center of the ribosome is made of RNA and forms peptide bonds, some introns splice themselves out, and RNase P cleaves transfer RNA precursors.","What does this suggest about early life?"],
+ ["What does the existence of ribozymes suggest about the origin of life?","RNA can store information and catalyze reactions, which supports the idea of an early RNA world in which one kind of molecule did both jobs before DNA and proteins took over.",""]
+],
+ "RNA can fold into shapes that bind substrates and catalyze reactions, which means a catalyst is defined by what it does, not by what it is made of.",
+ "A catalyst is defined by what it does, not by what it is made of.",
+ "A cook who both writes the recipe and prepares the dish does two jobs at once, as RNA might have done in early life.",
+ "Many antibiotics, including macrolides and tetracyclines, bind bacterial ribosomal RNA near its catalytic center, and the hepatitis delta virus uses a ribozyme to process its RNA.");
+
+/* ====== ADDED: Chapter 7 ====== */
+
+nc("c7_ring",7,"Why does glucose form a ring, and what are the alpha and beta forms?",[
+ ["Which two groups in glucose can react with each other, and what do they form?","The aldehyde at carbon 1 can react with the hydroxyl on carbon 5, forming a six membered ring held by a hemiacetal.","What new feature does the ring have?"],
+ ["What is the anomeric carbon, and why are there two forms?","Carbon 1 becomes a new stereocenter when the ring closes. The hydroxyl on it can point down, alpha, or up, beta, giving two forms called anomers.","What happens in solution?"],
+ ["What is mutarotation?","In solution the ring opens and closes, so alpha and beta forms interconvert until a mixture forms, about two thirds beta and one third alpha for glucose.","Why is beta glucose favored?"],
+ ["Why is the beta form of glucose the more stable?","All of its bulky groups, including the hydroxyl on carbon 1, can sit in equatorial positions in the chair shape, which reduces crowding.",""]
+],
+ "Glucose cyclizes through its aldehyde and a hydroxyl, creating alpha and beta anomers that interconvert, with beta favored because every large group can be equatorial.",
+ "A molecule can exist in several forms in equilibrium. Ask which form dominates and why.",
+ "Fructose can taste sweeter when cold because the sweeter ring form is more abundant at low temperature.",
+ "A modified glucose carrying a radioactive label, fluorodeoxyglucose, is used in PET scans because cancer cells and active brain tissue take up glucose rapidly.");
+
+nc("c7_epi",7,"Why do small differences between sugars, such as glucose and galactose, matter?",[
+ ["How do glucose and galactose differ?","They are epimers, differing only in the arrangement at carbon 4.","Does such a small difference matter chemically?"],
+ ["Why can enzymes treat glucose and galactose differently?","Enzymes bind specific shapes. A change at one carbon changes the shape of the molecule, so an enzyme that fits one may not bind the other.","How does the body handle galactose?"],
+ ["How is galactose from milk sugar converted for use?","Lactose is split into glucose and galactose. Galactose is converted by a series of enzymes into glucose 1 phosphate so it can enter glucose metabolism.","What if an enzyme is missing?"],
+ ["What happens when one of the enzymes is missing?","Galactose and its derivatives accumulate, harming the liver, eyes, and brain, as in galactosemia, so infants must avoid lactose.",""]
+],
+ "A change at a single carbon changes a sugar’s shape, and enzymes recognize shape, so the body must convert galactose before it can use it.",
+ "Shape specificity makes small changes matter.",
+ "Milk and other dairy contain lactose, and infant formula is sold in lactose free versions.",
+ "Newborn screening tests for galactosemia, and untreated infants can develop liver failure and cataracts.");
+
+nc("c7_deriv",7,"How are sugars modified into other useful molecules?",[
+ ["What are some ways a sugar can be modified?","Oxidized to an acid, reduced to a sugar alcohol, given an amino group to make an amino sugar, or joined to phosphate.","Give an example of each."],
+ ["Give an example of a sugar acid and an example of a sugar alcohol.","Gluconic acid and ascorbic acid, vitamin C, are sugar acids. Sorbitol and xylitol are sugar alcohols made by reducing a sugar’s carbonyl group.","What about amino sugars?"],
+ ["What are amino sugars, and where are they used?","A hydroxyl is replaced by an amino group, often acetylated. They form chitin, bacterial cell walls, glycosaminoglycans, and cartilage components.","Why do phosphorylated sugars matter?"],
+ ["Why are sugars phosphorylated in metabolism?","Adding phosphate traps the sugar inside the cell, because charged phosphate cannot cross membranes, and it also prepares the sugar for reactions.",""]
+],
+ "Sugars can be oxidized, reduced, aminated, or phosphorylated, giving acids, alcohols, amino sugars, and phosphate esters that serve structural and metabolic roles.",
+ "A building block can be modified in a few standard ways, and each way gives a new function.",
+ "Sugar free gum and candy often contain xylitol or sorbitol, which taste sweet but are absorbed less than sugar.",
+ "In diabetes, high glucose can be converted to sorbitol in tissues such as the lens of the eye, which is linked to cataracts and nerve damage.");
+
+nc("c7_glycogen",7,"Why is glycogen branched while cellulose is not?",[
+ ["What is glycogen, and what is it for?","A branched polymer of glucose that stores energy in animals, mostly in liver and muscle.","What kind of linkages and branches does it have?"],
+ ["What are the linkages in glycogen, and how often do branches occur?","Glucose units are joined by alpha 1 to 4 linkages, with an alpha 1 to 6 branch about every 10 residues.","What does branching do?"],
+ ["Why is a branched polymer useful for storage that must be mobilized quickly?","Enzymes remove glucose from the ends of chains, so many branches mean many ends and many glucose units can be released at once, while the molecule stays compact and soluble.","Why would cellulose differ?"],
+ ["Why is cellulose unbranched, and what does that give it?","Cellulose serves as structure, not quick fuel. Straight chains pack side by side in fibers with many hydrogen bonds, giving strength.",""]
+],
+ "Glycogen is branched to provide many ends for rapid release of glucose, while cellulose is straight to pack into strong fibers. Shape suits the job.",
+ "Form follows function: compact and fast, or strong and rigid.",
+ "Athletes eat carbohydrate before long events to fill glycogen stores, and a runner who runs out of glycogen can feel suddenly drained.",
+ "Glycogen storage diseases, such as McArdle disease with muscle cramps and von Gierke disease with low blood sugar, result from missing enzymes of glycogen use.");
+
+nc("c7_gag",7,"Why is cartilage springy and mucus slimy?",[
+ ["What are glycosaminoglycans?","Long unbranched chains of repeating disaccharide units, usually with a sulfate or carboxylate group, so they carry many negative charges.","What does a very negative polymer do in water?"],
+ ["How do many negative charges affect how the polymer behaves?","The charges repel each other and keep the chain extended, and they attract water and positive ions, so the polymer binds a large amount of water and takes up a large volume.","What happens when it is squeezed?"],
+ ["How does this give cartilage its resilience?","When cartilage is compressed, water is squeezed out and the charges move closer, which resists compression. When the pressure is released, water returns and the tissue springs back.","How are these chains arranged?"],
+ ["How are these chains arranged in proteoglycans?","Many glycosaminoglycan chains attach to a core protein like bristles on a brush, and proteoglycans attach to hyaluronic acid, forming a huge hydrated network.",""]
+],
+ "Glycosaminoglycans are highly charged, so they hold water and resist compression, which makes cartilage resilient and mucus slippery.",
+ "Charge and water binding explain how a tissue behaves under pressure.",
+ "Hyaluronic acid is used in skin products and eye drops because it holds water, and cartilage in joints cushions like a wet sponge.",
+ "Osteoarthritis involves loss of cartilage proteoglycans, heparin is a glycosaminoglycan used as an anticoagulant, and mucopolysaccharidoses result from missing enzymes that break these chains down.");
+
+nc("c7_wall",7,"Why do bacteria have a cell wall that human cells lack, and how do antibiotics use that?",[
+ ["What is the bacterial cell wall made of?","Peptidoglycan, chains of alternating N acetylglucosamine and N acetylmuramic acid joined by beta 1 to 4 linkages and cross linked by short peptides.","What does the cross linking do?"],
+ ["What job does the cross linked wall do?","It forms a strong mesh around the cell that resists the internal pressure from water entering by osmosis, so the cell does not burst.","How is the wall built?"],
+ ["How does penicillin kill bacteria?","It blocks the enzymes that form the peptide cross links in the wall. Growing cells make a weak wall and burst from osmotic pressure.","Why does this not harm us?"],
+ ["Why is this treatment selective for bacteria, and how do bacteria resist?","Human cells have no peptidoglycan wall. Resistant bacteria make beta lactamases that destroy penicillin, so drugs are combined with inhibitors or changed.",""]
+],
+ "The peptidoglycan wall resists osmotic bursting, and penicillin blocks its cross linking, which harms bacteria but not human cells, while resistance enzymes undo the drug.",
+ "Find what the target has that we do not, and block that.",
+ "Lysozyme, in tears, saliva, and egg white, cuts the bacterial wall and helps protect against infection.",
+ "Penicillins and cephalosporins block wall synthesis, vancomycin binds peptide ends of the wall precursors, and beta lactamase producing bacteria are a major source of resistance.");
+
+/* ====== ADDED: Chapter 8 ====== */
+
+nc("c8_parts",8,"What are the parts of a nucleotide, and how are nucleotides named and joined?",[
+ ["What three parts make up a nucleotide?","A nitrogenous base, a five carbon sugar, and one or more phosphate groups.","How does a nucleoside differ?"],
+ ["How is a nucleoside different from a nucleotide?","A nucleoside has the base and the sugar only. Adding phosphate gives a nucleotide.","What are the bases?"],
+ ["Name the bases and sort them into two families.","The purines, adenine and guanine, have two fused rings. The pyrimidines, cytosine, thymine, and uracil, have one ring.","How are the units joined in a chain?"],
+ ["How are nucleotides linked into a nucleic acid, and what does the chain have at its ends?","A phosphodiester bond joins the 3 prime hydroxyl of one sugar to the 5 prime phosphate of the next. A chain has a free 5 prime end and a free 3 prime end.",""]
+],
+ "A nucleotide is base plus sugar plus phosphate, bases are purines or pyrimidines, and phosphodiester bonds link nucleotides into a chain with direction.",
+ "Name the parts first. Then see how they are joined and which way the chain runs.",
+ "Caffeine resembles the purine adenine and blocks adenosine receptors, which is why it makes you feel less sleepy.",
+ "Drugs such as allopurinol and mercaptopurine are related to purines, and uric acid, the end product of purine breakdown, causes gout when it accumulates.");
+
+nc("c8_complement",8,"Why does base pairing make copying DNA possible?",[
+ ["What pairing rules hold between the bases, and what did Chargaff observe?","A pairs with T and G pairs with C. In DNA the amount of A equals T and G equals C, which fits the pairing.","What does pairing imply about the two strands?"],
+ ["What does it mean that the two strands are complementary?","The sequence of one strand determines the sequence of the other, so each strand contains the information needed to rebuild its partner.","How could that be used in copying?"],
+ ["How does complementarity let a cell copy DNA?","The strands separate and each serves as a template. New nucleotides pair with the template bases and are joined by DNA polymerase, producing two identical double helices.","What does semiconservative mean?"],
+ ["What does semiconservative replication mean, and what experiment showed it?","Each new molecule has one old strand and one new strand. The Meselson and Stahl experiment, which used heavy nitrogen to label DNA, showed this.",""]
+],
+ "Complementary pairing means each strand carries the information for its partner, so separating the strands and pairing new nucleotides makes two faithful copies.",
+ "If one half determines the other, either half can be a template.",
+ "A photographic negative contains the information needed to make the positive, as each DNA strand does for the other.",
+ "Errors in pairing cause mutations, and many cancer drugs and antivirals act by disrupting DNA copying in fast dividing or infected cells.");
+
+nc("c8_super",8,"Why does DNA need to be supercoiled, and what do topoisomerases do?",[
+ ["How long is the DNA in a cell compared with the cell?","A human cell has about two meters of DNA in a nucleus a few micrometers across, so it must be compacted enormously.","How is it compacted?"],
+ ["What is supercoiling?","Twisting of the double helix on itself, like twisting a rubber band or telephone cord, which stores strain and compacts the DNA. Underwinding is common in cells.","What problem does this cause during copying?"],
+ ["What happens ahead of a replication fork as the strands are separated?","The DNA ahead becomes overwound, building up torsional stress that could stop the fork.","What relieves it?"],
+ ["What do topoisomerases do, and how?","They cut one or both strands, let the DNA rotate or pass through, and rejoin it, relieving the stress.",""]
+],
+ "DNA must be compacted and twisted, and unwinding it creates strain that topoisomerases relieve by cutting, passing, and rejoining strands.",
+ "A solution can create a new problem. Ask what stress it builds and who relieves it.",
+ "Twisting a rubber band tightly makes it coil on itself, and cutting and rejoining relaxes it.",
+ "Quinolone antibiotics block bacterial DNA gyrase, and cancer drugs such as etoposide and irinotecan trap topoisomerases on DNA and kill dividing cells.");
+
+nc("c8_damage",8,"Why does ultraviolet light damage DNA, and how do cells cope?",[
+ ["What does ultraviolet light do to adjacent pyrimidines in DNA?","It can link neighboring thymines into a thymine dimer, a covalent bond between the bases that distorts the helix.","Why is that a problem?"],
+ ["Why does a thymine dimer cause trouble?","Replication and transcription machinery cannot read it correctly, so polymerases stall or insert wrong bases, causing mutations.","What other damage occurs?"],
+ ["What other kinds of DNA damage occur?","Spontaneous loss of an amino group converts cytosine to uracil, oxidation modifies bases, and chemicals add groups to bases. Radiation and some chemicals break the backbone.","How do cells respond?"],
+ ["How do cells repair damage such as thymine dimers?","In nucleotide excision repair, enzymes recognize the distortion, cut out a short stretch containing the damage, and DNA polymerase and ligase fill and seal the gap.",""]
+],
+ "Ultraviolet light and other agents damage bases, which distorts DNA and causes mutations unless repair systems cut out and replace the damaged stretch.",
+ "Damage is constant, so ask what detects it and what fixes it.",
+ "Sunscreen absorbs or reflects ultraviolet light so that fewer thymine dimers form in your skin, and a tan is a response to damage.",
+ "Xeroderma pigmentosum, a defect in nucleotide excision repair, causes extreme sensitivity to sun and a high risk of skin cancer, and tanning beds increase skin cancer risk.");
+
+nc("c8_epi",8,"How can DNA carry information beyond its sequence?",[
+ ["What can happen to cytosine in DNA without changing the sequence?","A methyl group can be added to cytosine, mostly in CG sequences, forming 5 methylcytosine.","What would that do?"],
+ ["How does methylation affect a gene?","Dense methylation near a promoter generally turns a gene off by blocking transcription factors and recruiting proteins that make chromatin compact.","Is this permanent?"],
+ ["How is the pattern passed on when a cell divides, and how is it reset?","Maintenance methyltransferases copy the pattern onto the new strand, so daughter cells inherit it. It is erased and reset at certain stages of development.","What does this explain?"],
+ ["What does this help explain about development and identical twins?","Different cell types switch different genes on and off with the same DNA, and the patterns of identical twins diverge with age and environment.",""]
+],
+ "Chemical marks on DNA such as methylation change which genes are used without changing the sequence, and cells copy those marks when they divide.",
+ "The same text can be read differently. Ask what marks tell the reader where to look.",
+ "A musical score is the same each time, but how it is played changes the performance, as epigenetic marks change how a genome is used.",
+ "Silencing of tumor suppressor genes by methylation occurs in cancer, and drugs such as azacitidine reduce methylation in some blood cancers.");
+
+nc("c8_rnatypes",8,"Why does a cell make several different kinds of RNA?",[
+ ["What does messenger RNA do?","It carries a copy of a gene’s instructions from the DNA to the ribosome, where it is read to make a protein.","What else is needed to read it?"],
+ ["What roles do ribosomal RNA and transfer RNA play?","Ribosomal RNA forms the core of the ribosome and catalyzes peptide bond formation. Transfer RNA carries amino acids and reads codons by base pairing.","Are there regulatory RNAs?"],
+ ["Name some RNAs that regulate genes.","MicroRNAs and small interfering RNAs pair with mRNA to block translation or trigger degradation, and small nuclear RNAs help splice introns out of pre mRNA.","Why use RNA for these jobs?"],
+ ["Why is RNA suited to so many roles?","It is single stranded and can fold into shapes, can pair with other nucleic acids by sequence, can catalyze, and is easy to make and destroy.",""]
+],
+ "Different RNAs carry messages, read codons, form the ribosome, and regulate other RNAs, and RNA’s ability to pair, fold, and catalyze suits each job.",
+ "Different jobs in the same pathway often use different versions of one tool.",
+ "In a kitchen, the copy of the recipe is like mRNA, the helper who fetches ingredients is like tRNA, and the counter and tools are like the ribosome.",
+ "mRNA vaccines deliver a message to make a protein, small RNA drugs such as patisiran silence a gene, and antibiotics such as tetracyclines and macrolides block bacterial ribosomes.");
+
+/* ====== ADDED: Chapter 9 ====== */
+
+nc("c9_gel",9,"How does gel electrophoresis separate DNA fragments by size?",[
+ ["Why do DNA fragments move in an electric field, and in which direction?","The phosphate backbone is negatively charged, so DNA moves toward the positive electrode.","Why would different fragments move at different speeds?"],
+ ["Why is the charge to mass ratio of DNA fragments about the same, and what then differs between them?","Each nucleotide adds both mass and a phosphate charge, so charge per length is nearly constant. Fragments differ in length.","What role does the gel play?"],
+ ["How does an agarose gel separate by length?","The gel is a mesh. Small fragments wind through the pores easily and move far, while large fragments are slowed.","How do you read the sizes?"],
+ ["How do you see the DNA and estimate sizes?","Stain the DNA with a dye that binds it and fluoresces, and compare bands with a ladder of known sizes run in a lane beside the sample.",""]
+],
+ "DNA is uniformly negative, so a gel mesh sorts fragments by length, and a ladder of known sizes turns band positions into estimates.",
+ "When charge per unit is constant, size becomes the only thing that separates molecules.",
+ "Paternity and forensic DNA tests compare band patterns to match samples to people.",
+ "Gels check PCR products in genetic tests, and fragment patterns help diagnose some inherited conditions and identify infectious organisms.");
+
+nc("c9_hybrid",9,"How does a probe find one sequence among millions?",[
+ ["What allows a short DNA to find its complementary sequence?","Base pairing. A single stranded probe binds only to a strand with a matching sequence.","How do you detect the binding?"],
+ ["How is a probe made visible?","It is labeled with a radioactive atom or a fluorescent dye, so a signal appears wherever the probe binds.","What controls specificity?"],
+ ["How do temperature and salt control how strictly the probe must match?","High temperature and low salt make binding stricter, so only perfectly matched sequences stay bound. Lower temperature and higher salt allow partial matches.","How is this used?"],
+ ["Describe two uses of hybridization.","A Southern blot finds a particular DNA sequence among fragments on a gel, and microarrays or in situ hybridization show which sequences are present or where a gene is located in cells or chromosomes.",""]
+],
+ "A labeled single stranded probe finds its complement by base pairing, and temperature and salt set how exact the match must be.",
+ "To find one thing among many, use a unique partner that fits only it, and a label to see it.",
+ "Searching a library for a unique phrase finds the one book that contains it, as a probe finds its match among millions of sequences.",
+ "Fluorescent in situ hybridization detects extra copies of the HER2 gene in some breast cancers, which guides treatment, and tests can identify infectious organisms by their DNA.");
+
+nc("c9_cdna",9,"Why do scientists make cDNA from mRNA?",[
+ ["What does the mRNA in a cell tell you that the DNA does not?","Which genes are being expressed in that cell at that moment, since every cell has the same DNA but different mRNA.","What is the difficulty in working with mRNA?"],
+ ["Why is RNA hard to work with, and what can DNA polymerases not do?","RNA is easily degraded, and ordinary DNA polymerases need a DNA template, so they cannot copy RNA directly.","What solves that?"],
+ ["What does reverse transcriptase do?","It makes a DNA copy, complementary DNA, from an RNA template. The cDNA can then be amplified, sequenced, or cloned.","What else does cDNA offer?"],
+ ["How does cDNA differ from the gene in the genome?","It lacks introns, because they were removed from the mRNA, so it can be expressed in bacteria that cannot splice.",""]
+],
+ "Reverse transcriptase turns fragile mRNA into stable cDNA, which lets researchers measure, clone, and express the genes a cell is using.",
+ "To study something fragile, convert it into a form that is stable and easy to copy.",
+ "Tests for RNA viruses use the same trick, converting viral RNA to DNA before copying it.",
+ "RT PCR measures viral load in HIV and detects SARS CoV 2, and gene expression profiles of tumors guide cancer care.");
+
+nc("c9_qpcr",9,"How does real time PCR measure how much DNA you started with?",[
+ ["How does PCR amplify DNA each cycle, and what does that predict about the amount over time?","The amount roughly doubles each cycle in the exponential phase, so the amount depends on the starting amount and the number of cycles.","How could you measure the growth?"],
+ ["How does a fluorescent dye or probe allow you to watch the reaction?","It gives off a signal when it binds double stranded DNA or when a probe is cut, so fluorescence rises as product accumulates, and it is measured each cycle.","What number do you get?"],
+ ["What is the Ct value, and what does a lower Ct mean?","The cycle at which fluorescence crosses a threshold. More starting DNA reaches the threshold sooner, so a lower Ct means more template.","How do you convert Ct to amounts?"],
+ ["How do you convert Ct values into amounts?","Run standards of known amounts to make a curve of Ct against the logarithm of amount, then read the unknown from the curve, using controls for contamination and efficiency.",""]
+],
+ "Real time PCR tracks fluorescence each cycle, and the cycle at which it crosses a threshold reveals how much template there was at the start.",
+ "If growth is predictable, the time to reach a threshold tells you where you began.",
+ "Test results for infections sometimes report a Ct value, which reflects how many cycles were needed to detect the virus.",
+ "Viral load tests, tests for small numbers of leftover cancer cells, and studies of gene expression use quantitative PCR.");
+
+nc("c9_express",9,"How do you make a human protein in bacteria or other cells?",[
+ ["What does a gene need in order to be expressed in a host?","A promoter the host recognizes, a ribosome binding site or its equivalent, and the coding sequence, all in a vector that can replicate.","How do you control when it is made?"],
+ ["How can you switch expression on when you want it?","Use an inducible promoter, such as one turned on by IPTG in bacteria, so cells grow first and then make the protein.","What if the protein is not folded?"],
+ ["What problems arise when a human protein is made in bacteria?","It may misfold and form insoluble aggregates called inclusion bodies, and bacteria cannot add the sugars or process the protein as human cells do.","What alternatives are there?"],
+ ["What alternative hosts and tricks are used, and how is the protein purified?","Yeast, insect cells, and mammalian cells give better folding and sugar addition. A tag, such as a string of histidines, lets the protein be purified in one step.",""]
+],
+ "Expression needs a promoter, a vector, and a suitable host, with induction for control, and the choice of host and a purification tag decides quality and ease.",
+ "To make something in a new host, supply what the host needs to read it, and plan for what the host cannot do.",
+ "Many cheese makers use rennet made by engineered microbes instead of calf stomach, and detergent enzymes are made the same way.",
+ "Human insulin, growth hormone, clotting factors, and erythropoietin are produced in engineered cells, and monoclonal antibodies are made mostly in mammalian cells.");
+
+nc("c9_genome",9,"What can sequencing a genome tell us, and what can it not tell us?",[
+ ["What are some basic facts about the human genome?","About three billion base pairs, around twenty thousand protein coding genes, and only a small fraction of the DNA codes for protein.","What else is in it?"],
+ ["What is in the rest of the genome?","Regulatory regions, genes for noncoding RNAs, repeated sequences, and sequences of unknown function.","How do people differ?"],
+ ["How do two people’s genomes differ?","They differ at roughly one in a thousand positions, mostly single base changes called SNPs, plus some insertions, deletions, and copy number changes.","What can a genome predict?"],
+ ["What can a genome sequence tell you about health, and what can it not tell you?","It can reveal single gene diseases, carrier status, and drug response. For most common conditions it gives only a risk, because many genes, the environment, and chance all contribute.",""]
+],
+ "A genome sequence is a detailed parts list. It can diagnose single gene conditions and guide drug choice, but for most traits it gives risks, not certainties.",
+ "Know what a tool measures and what it cannot, so you do not over read the result.",
+ "Consumer genetics kits report ancestry and a few health traits, and the results raise questions about privacy.",
+ "Genome sequencing diagnoses rare diseases and guides cancer therapy, and pharmacogenomic tests, such as for CYP2C19 and clopidogrel, help choose drugs and doses.");
+
+/* ====== ADDED: Chapter 10 ====== */
+
+nc("c10_fa",10,"What do the names saturated, omega 3, and trans tell you about a fatty acid?",[
+ ["What do the words saturated and unsaturated mean for a fatty acid?","A saturated fatty acid has no carbon to carbon double bonds, so each carbon holds as many hydrogens as it can. An unsaturated one has at least one double bond.","What does a double bond do to shape?"],
+ ["How does a cis double bond change the shape of the chain, and what does that do to melting point?","It puts a kink in the chain, so molecules pack less tightly and melt at a lower temperature. Saturated chains are straight and pack tightly, so they are solid at room temperature.","What does omega 3 mean?"],
+ ["What does omega 3 mean?","The position of the first double bond counted from the methyl end of the chain. In an omega 3 fatty acid it is three carbons from the end.","What is a trans fat?"],
+ ["What is a trans fatty acid, and why does it matter?","A fatty acid with a double bond in the trans arrangement, which keeps the chain straighter, like a saturated one. Partial hydrogenation of oils produces trans fats, which raise heart disease risk.",""]
+],
+ "Saturation, the position of double bonds, and cis or trans geometry set a fatty acid’s shape, packing, and melting point, and they matter for health.",
+ "Names in chemistry often encode structure. Decode the name, then predict the shape.",
+ "Butter is solid and olive oil is liquid at room temperature because of differences in saturation, and food labels list trans fat.",
+ "Diets high in industrially produced trans fats are linked to heart disease, and omega 3 fatty acids from fish are used to lower very high blood triglycerides.");
+
+nc("c10_tag",10,"How is a triacylglycerol made and broken down?",[
+ ["What bond joins a fatty acid to glycerol, and what does the reaction release?","An ester bond forms between a carboxyl group and a hydroxyl group, releasing water, so three fatty acids are attached to glycerol.","What would reverse it?"],
+ ["How is a triacylglycerol broken down in the body?","Lipases hydrolyze the ester bonds, releasing fatty acids and glycerol. Pancreatic lipase does this in the intestine, and hormone sensitive lipase does it in fat cells.","What happens with a strong base?"],
+ ["What is saponification?","Hydrolysis of fats with a strong base such as sodium hydroxide, which gives glycerol and the sodium salts of the fatty acids, which are soap.","Why does soap work?"],
+ ["Why does the product, soap, act as a cleaning agent?","The fatty acid salts are amphipathic, with a charged head and a nonpolar tail, so they surround grease and carry it into water.",""]
+],
+ "Triacylglycerols are esters of glycerol and fatty acids, hydrolyzed by lipases, and treating them with strong base gives glycerol and soap.",
+ "A bond made by removing water is broken by adding water, with an enzyme or a strong chemical.",
+ "Traditional soap making boils fat with lye, and biodiesel is made by a related reaction of oils with an alcohol.",
+ "Orlistat blocks pancreatic lipase so that less fat is absorbed, and very high blood triglycerides raise the risk of pancreatitis.");
+
+nc("c10_chol",10,"Why is cholesterol both essential and dangerous?",[
+ ["What does cholesterol do in the body?","It is a component of animal cell membranes that adjusts fluidity, and it is the starting material for steroid hormones, bile acids, and vitamin D.","Where does it come from?"],
+ ["Where does the body get cholesterol, and how is it controlled?","The liver makes most of it, and some comes from food. When cells have enough, they make less, because cholesterol feeds back to turn down its own synthesis.","Why is it dangerous?"],
+ ["Why does too much cholesterol in the blood cause disease?","LDL particles that carry cholesterol can enter artery walls, where oxidized cholesterol is taken up by immune cells, forming plaques that narrow arteries and can rupture.","How can it be lowered?"],
+ ["How do statins lower cholesterol?","They inhibit HMG CoA reductase, the key step in cholesterol synthesis, so liver cells make less and take up more LDL from the blood.",""]
+],
+ "Cholesterol is needed for membranes and for making hormones, bile acids, and vitamin D, but excess LDL cholesterol builds artery plaques, which statins reduce.",
+ "A molecule can be essential and harmful. The dose and the place decide which.",
+ "Egg yolk and organ meats contain cholesterol, but the liver makes more than most people eat, and the main dietary effect on blood levels comes from saturated and trans fats.",
+ "Familial hypercholesterolemia, from defects in the LDL receptor, causes very high LDL and early heart disease, and statins are among the most prescribed drugs.");
+
+nc("c10_lipo",10,"How do lipoproteins carry fats and cholesterol through blood?",[
+ ["Why can fats and cholesterol not travel free in blood?","They are nonpolar and blood is mostly water, so they would clump together.","How can they be carried?"],
+ ["What is the structure of a lipoprotein?","A core of triacylglycerols and cholesterol esters surrounded by a single layer of phospholipids, free cholesterol, and proteins called apolipoproteins that keep the particle soluble and direct it.","What types are there?"],
+ ["Compare chylomicrons, VLDL, LDL, and HDL.","Chylomicrons carry dietary fat from the intestine, VLDL carries fat made by the liver, LDL carries cholesterol to tissues, and HDL carries cholesterol back to the liver. Density rises as the proportion of protein rises.","How does a cell take in LDL?"],
+ ["How do cells take up LDL?","The LDL receptor binds the apolipoprotein on LDL, and the receptor and particle are taken in by receptor mediated endocytosis.",""]
+],
+ "Lipoproteins wrap nonpolar cargo in a polar shell so it can travel in blood, and different particles carry fat or cholesterol in different directions.",
+ "Match the carrier to the cargo. A nonpolar load needs a package with a polar outside.",
+ "A delivery truck carries goods that could not travel on their own, as a lipoprotein carries fats through blood.",
+ "Lipid panels report LDL and HDL cholesterol and triglycerides, high LDL raises the risk of heart disease, and drugs such as PCSK9 inhibitors increase LDL receptors.");
+
+nc("c10_bile",10,"How do bile salts help you digest fat?",[
+ ["What problem does fat in the intestine pose for digestion?","Fat forms large droplets in water, and lipases act at the surface of the droplet, so little fat is exposed to the enzyme.","What could increase the surface?"],
+ ["How do bile salts increase the surface area of fat droplets?","Bile salts are amphipathic. They coat the droplets and break them into many tiny droplets, which is called emulsification, greatly increasing the surface.","What happens next?"],
+ ["What happens after lipase acts on the droplets?","The products, fatty acids and monoacylglycerols, are carried in mixed micelles with bile salts to the intestinal lining and absorbed.","Where do bile salts come from and go?"],
+ ["Where are bile salts made and what happens to them afterward?","The liver makes them from cholesterol, the gallbladder stores them, and most are reabsorbed in the lower intestine and recycled.",""]
+],
+ "Bile salts emulsify fat into tiny droplets so lipase can reach it, carry the products to the intestinal wall in micelles, and are then recycled.",
+ "To speed a surface reaction, increase the surface.",
+ "Dish soap breaks grease into small droplets in the same way that bile salts emulsify dietary fat.",
+ "Gallstones can block bile flow and cause poor fat absorption, resins such as cholestyramine bind bile salts to lower cholesterol, and fat malabsorption leads to deficiencies of fat soluble vitamins.");
+
+/* ====== ADDED: Chapter 11 ====== */
+
+nc("c11_fluid",11,"What does fluid mosaic mean, and which movements occur in a membrane?",[
+ ["What do the words fluid and mosaic describe?","Fluid means that lipids and many proteins can move within the plane of the membrane. Mosaic means that proteins of many kinds are embedded in the lipid layer like pieces of a mosaic.","What kinds of movement happen?"],
+ ["Compare lateral diffusion with flip flop of a lipid across the bilayer.","Lateral movement within a leaflet is very fast. Flip flop, moving across, is very slow because the polar head must pass through the nonpolar core.","How does the cell handle that?"],
+ ["How do cells control which lipids are on which side?","Enzymes called flippases, floppases, and scramblases move particular lipids, so the two leaflets differ in composition.","Are all proteins free to move?"],
+ ["What restricts the movement of some proteins and lipids?","Attachment to the cytoskeleton, protein complexes, and lipid rich regions called rafts can confine them to certain areas.",""]
+],
+ "Membrane components move quickly sideways but only slowly from side to side, and cells use enzymes and anchors to control where things are.",
+ "Ask which motions are fast, which are slow, and what the cell does to override them.",
+ "People moving along a crowded sidewalk move freely, but jumping the barrier to the other side is difficult, which resembles how lipids move in a membrane.",
+ "When cells begin programmed death, phosphatidylserine appears on the outer face as an eat me signal, and the composition of membranes affects how some viruses enter cells.");
+
+nc("c11_integral",11,"How do proteins sit in a membrane, and how do you tell integral from peripheral proteins?",[
+ ["What must the surface of a protein look like to sit inside a bilayer?","The part inside the lipid core must be nonpolar, so it is covered with hydrophobic side chains, while parts outside the bilayer can be polar.","What shapes allow that?"],
+ ["What structures cross the membrane?","Alpha helices made of about twenty mostly nonpolar amino acids, or beta barrels in some bacterial and mitochondrial outer membrane proteins.","How do you predict them?"],
+ ["How do you predict a membrane spanning segment from a sequence?","A hydropathy plot looks for stretches of about twenty amino acids with high hydrophobicity.","How do you tell integral from peripheral in the lab?"],
+ ["How would you remove each kind from a membrane?","Peripheral proteins come off with changes in salt or pH. Integral proteins need detergent to pull them out of the lipids.",""]
+],
+ "Integral proteins have nonpolar surfaces that sit in the lipid core, often as helices of about twenty residues, and need detergent for removal, while peripheral proteins attach loosely.",
+ "A protein’s surface matches its surroundings. Read the surface to know where it lives.",
+ "Dish detergent is needed to lift grease off a pan, and similar detergents are used to pull proteins out of membranes.",
+ "Many drugs act on membrane proteins such as receptors, channels, and transporters, and mutations in the membrane protein CFTR cause cystic fibrosis.");
+
+nc("c11_channel",11,"How does an ion channel choose one ion over another?",[
+ ["Why can ions not simply pass through a lipid bilayer, and what does a channel provide?","The nonpolar core excludes charged ions. A channel provides a water filled path through the protein so an ion can cross.","How can the pore be selective?"],
+ ["What does a selectivity filter do in a potassium channel?","It is a narrow region lined with carbonyl oxygens that replace the water shell of a potassium ion at the right spacing, so potassium passes easily.","Why does it exclude sodium?"],
+ ["Why is sodium, which is smaller than potassium, kept out?","Sodium is too small to fit the spacing of the oxygens, so the filter cannot compensate for its lost water shell, and it is more costly for sodium to enter.","How is flow controlled?"],
+ ["What controls whether a channel is open?","Gates open or close in response to voltage, ligands, or mechanical force. Channels can also inactivate after opening.",""]
+],
+ "A selectivity filter replaces an ion’s water shell with matching oxygens, so only the right size passes, and gates control when the channel is open.",
+ "Selectivity comes from a precise fit, and gating from a switch. Identify both.",
+ "A coin sorter lets only the right size pass, as a selectivity filter does for ions.",
+ "Defects in channels cause disease, including cystic fibrosis, some inherited heart rhythm disorders such as long QT syndrome, and epilepsy, and many drugs are channel blockers.");
+
+nc("c11_aqp",11,"How can water cross a membrane quickly without letting protons through?",[
+ ["Does water cross a bilayer on its own, and is that enough for some tissues?","A little does, but slowly. Tissues that move a lot of water, such as the kidney, need faster routes.","What provides them?"],
+ ["What are aquaporins?","Channel proteins that let water pass in single file at a very high rate.","Why do they not let protons through?"],
+ ["How does the pore keep out protons?","Positive charges and the arrangement of hydrogen bonding groups in the narrow region break the chain of water molecules that would pass protons along, so water passes and protons do not.","How is it regulated?"],
+ ["How does the kidney use aquaporins?","The hormone vasopressin, also called ADH, causes aquaporin 2 channels to move to the membrane of collecting duct cells, so water is reabsorbed and urine is concentrated.",""]
+],
+ "Aquaporins pass water quickly in single file while excluding protons, and hormones control how many are in the membrane.",
+ "A channel can be fast and still selective. Ask what it excludes and how.",
+ "Raisins swell in water and cucumbers shrink in salt as water moves across their membranes, and some cells speed this up using aquaporins.",
+ "Diabetes insipidus can arise when ADH is missing or the kidney does not respond, causing large volumes of dilute urine, and some forms involve defects in aquaporin 2.");
+
+nc("c11_endo",11,"How do cells bring in large cargo, such as LDL particles or viruses?",[
+ ["Why can large cargo not cross the membrane through a channel or a carrier?","The cargo is too big, so the cell wraps a piece of membrane around it and pinches it off as a vesicle.","What is that process called?"],
+ ["What is receptor mediated endocytosis?","Receptors on the surface bind specific cargo, collect in clathrin coated pits, and the pit pinches off as a vesicle carrying the receptor and cargo into the cell.","What happens to the vesicle?"],
+ ["What happens to the vesicle after it enters, and how do secreted molecules leave?","It fuses with endosomes, where the cargo is released or sorted. In the reverse process, exocytosis, vesicles fuse with the plasma membrane, helped by SNARE proteins.","Why does fusion need to be specific?"],
+ ["How do SNARE proteins make fusion specific?","Matching SNAREs on the vesicle and target membrane wrap around each other and pull the membranes together, so a vesicle fuses only with the correct target.",""]
+],
+ "Cells bring in large cargo by receptor mediated endocytosis and release cargo by exocytosis, with SNAREs ensuring that vesicles fuse with the right membrane.",
+ "For things too big to cross, wrap them in a package and use labels to deliver them.",
+ "A package delivery has a label and a receiving dock, as a vesicle has its receptors and SNAREs.",
+ "Familial hypercholesterolemia arises from defective LDL receptors, and botulinum toxin cuts SNARE proteins and stops neurotransmitter release, which is used in small amounts for Botox treatments.");
+
+/* ====== ADDED: Chapter 12 ====== */
+
+nc("c12_nuclear",12,"How do steroid hormone receptors change what a cell does?",[
+ ["Why can steroid hormones enter cells, and where do their receptors sit?","They are nonpolar and cross the membrane. Their receptors are inside the cell, in the cytoplasm or nucleus.","What happens after binding?"],
+ ["What does the hormone receptor complex do?","It binds to specific DNA sequences called hormone response elements, through a zinc finger DNA binding domain, and turns genes on or off.","What does that imply about timing?"],
+ ["How does the speed of a steroid response compare with that of a surface receptor?","It is slower, taking minutes to hours, because genes must be transcribed and proteins made. But the effects last longer.","How can drugs target these receptors?"],
+ ["How can drugs act on nuclear receptors?","Drugs can mimic the hormone, such as prednisone mimicking cortisol, or block the receptor, as tamoxifen does for the estrogen receptor.",""]
+],
+ "Steroid hormones cross the membrane and act through receptors that bind DNA and change gene expression, which is slower but longer lasting than surface signaling.",
+ "The location of a receptor tells you the kind of signal and how fast the response will be.",
+ "Birth control pills contain synthetic hormones that act on steroid receptors, and their effects take time to build.",
+ "Tamoxifen treats estrogen receptor positive breast cancer, and glucocorticoids such as prednisone reduce inflammation by changing gene expression.");
+
+nc("c12_achr",12,"How does a ligand gated channel such as the acetylcholine receptor work?",[
+ ["What does the nicotinic acetylcholine receptor do at a nerve and muscle junction?","It is a ligand gated ion channel in the muscle membrane. When acetylcholine from the nerve binds, the channel opens.","What passes through?"],
+ ["What ions flow, and what happens to the muscle cell?","Sodium enters and potassium leaves, but sodium entry dominates, depolarizing the membrane and triggering an action potential that leads to contraction.","How fast is it?"],
+ ["Why is this signaling so fast compared with a G protein pathway?","The receptor is itself the channel, so there are no intermediate steps, and the response takes milliseconds.","How is the signal ended?"],
+ ["How is the signal ended, and what happens if that fails?","Acetylcholinesterase rapidly breaks down acetylcholine in the gap, so the channel closes. Blocking the enzyme causes the muscle to be stimulated continuously.",""]
+],
+ "In a ligand gated channel the receptor and the channel are the same protein, so binding opens the pore at once, and an enzyme removes the signal.",
+ "Fewer steps means a faster signal. Count the handoffs.",
+ "Nicotine binds the same kind of receptor in the nervous system, which is why it has stimulating effects.",
+ "Myasthenia gravis is caused by antibodies against the receptor, neuromuscular blocking drugs used in surgery block it, and nerve agents inhibit acetylcholinesterase.");
+
+nc("c12_no",12,"How can a gas such as nitric oxide act as a signal?",[
+ ["How is nitric oxide made, and why can it move easily?","Nitric oxide synthase makes it from arginine. It is a small uncharged gas, so it diffuses through membranes to neighboring cells.","What is its target?"],
+ ["What does nitric oxide do inside the target cell?","It activates guanylyl cyclase, which makes cyclic GMP. Cyclic GMP activates a protein kinase that relaxes the smooth muscle of blood vessels.","How long does the signal last?"],
+ ["Why is the signal short lived, and how is the second messenger ended?","Nitric oxide reacts quickly and does not last long. Phosphodiesterase breaks down cGMP, which ends the response.","How can drugs affect this pathway?"],
+ ["How do nitroglycerin and sildenafil act on this pathway?","Nitroglycerin releases nitric oxide to relax vessels in angina. Sildenafil inhibits the phosphodiesterase that breaks down cGMP, so the signal lasts longer.",""]
+],
+ "Nitric oxide diffuses into neighboring cells, raises cGMP to relax blood vessels, and is quickly cleared, and drugs can boost it or prolong its second messenger.",
+ "A small gas needs no receptor on the surface. Ask how it is made, where it goes, and how it is ended.",
+ "Beetroot juice, rich in nitrate, is used by some athletes because the body can convert nitrate to nitric oxide.",
+ "Nitroglycerin under the tongue treats chest pain from angina, and sildenafil treats erectile dysfunction and pulmonary hypertension.");
+
+nc("c12_cycle",12,"How do cyclins and CDKs control when a cell divides?",[
+ ["What are the main phases of the cell cycle, and what must happen before division?","G1, S, G2, and M. DNA must be copied once in S phase and checked before the cell divides in M phase.","What drives progression?"],
+ ["What are cyclins and cyclin dependent kinases?","CDKs are protein kinases that are active only when bound to a cyclin. Cyclin levels rise and fall through the cycle, so CDK activity rises and falls on schedule.","How does CDK activity change the cell?"],
+ ["What does phosphorylation by CDKs do, for example to the Rb protein?","CDK phosphorylation of Rb releases transcription factors that turn on genes for DNA replication, pushing the cell past a checkpoint.","What stops the cycle?"],
+ ["What do checkpoints and p53 do when DNA is damaged?","p53 turns on inhibitors of CDKs, such as p21, stopping the cycle so damage can be repaired, or triggers cell death if damage is too great.",""]
+],
+ "Cyclins rise and fall to switch CDKs on and off, CDKs phosphorylate targets such as Rb to move the cell forward, and checkpoints with p53 stop the cycle when DNA is damaged.",
+ "A timer and a set of checks control a process. Identify what rises and falls and what stops it.",
+ "A cooking timer with checks along a recipe resembles cyclin timing and checkpoints.",
+ "Cancers often have mutated p53 or Rb, and CDK4 and 6 inhibitors such as palbociclib treat some breast cancers.");
+
+nc("c12_apop",12,"How does a cell decide to die in an orderly way?",[
+ ["Why do organisms need cells to die on purpose?","To shape tissues during development, remove damaged or dangerous cells, and keep cell numbers in balance.","What is this process called?"],
+ ["What is apoptosis, and what are caspases?","Programmed cell death. Caspases are proteases made as inactive precursors, and once activated they cut many cell proteins in a cascade.","What starts it?"],
+ ["What triggers apoptosis from outside and inside the cell?","Outside, death receptors bind ligands. Inside, damaged DNA or stress causes mitochondria to release cytochrome c, which helps activate caspases.","What restrains it?"],
+ ["How do proteins such as Bcl 2 control the decision, and how can cancer exploit it?","Bcl 2 family proteins control release of cytochrome c. Cancer cells can overproduce Bcl 2 or lose p53 so that they avoid dying.",""]
+],
+ "Apoptosis is an orderly, caspase driven self destruction triggered by outside signals or internal damage and held in check by proteins such as Bcl 2.",
+ "Even destruction can be a controlled, signaled process. Find the trigger, the executioner, and the brake.",
+ "Webbed fingers separate before birth because the cells between them die, and a tadpole loses its tail in a similar way.",
+ "Too little apoptosis contributes to cancer and too much contributes to neurodegeneration. Drugs such as venetoclax block Bcl 2 in some blood cancers.");
+
+/* ===== Dig down: statements, questions, key ideas, and common mix ups =====
+   Each node: skill, q, key (ideas a strong answer includes; opt means optional),
+   need (how many required ideas make the answer solid), model, bad (common mix ups with a follow up question). */
+var PROBES=[
+
+{ id:"enz",
+  statement:"Enzymes lower the activation energy of a reaction.",
+  intro:"Start with the words in the statement. Do you own each one?",
+  nodes:[
+  { skill:"Define", q:"What is an enzyme?",
+    key:[
+      {id:"cat",label:"It speeds up a reaction (it is a catalyst)",re:[/catalyst|speed(s|ing)? up|faster|accelerat|rate of (a |the )?reaction|increase(s)? (the )?rate/],probe:"What does an enzyme do to a reaction? Does it start it, stop it, or change how fast it goes?",pm:"It changes how fast the reaction goes. It is a catalyst."},
+      {id:"prot",label:"It is usually a protein",opt:true,re:[/protein|amino acid|polypeptide/]}
+    ], need:1,
+    model:"An enzyme is a biological catalyst, usually a protein, that speeds up a specific reaction and is not used up.",
+    bad:[
+      {label:"Enzymes only digest food",re:[/digest|stomach|break(s|ing)? down (the )?food/],not:[/muscle|every cell|all cells|metabol/],why:"That is true, but digestion is only one place enzymes work.",ask:"Does a muscle cell have enzymes? What would they be doing there?",model:"Yes. Every cell has hundreds of enzymes. In muscle they help make ATP and build and break down many molecules, which has nothing to do with the stomach."},
+      {label:"Enzymes are used up",re:[/used up|use(s|d)? up|consumed|destroyed|gets? (used|burned)/],why:"That describes a reactant. An enzyme is not changed by the reaction.",ask:"What happens to an enzyme when the reaction is finished?",model:"It is released unchanged and can catalyze the reaction again."},
+      {label:"Enzymes are vitamins or hormones",re:[/vitamin|hormone|mineral/],why:"Those are different kinds of molecules with different jobs.",ask:"What is the difference between a molecule that does a chemical job and one that carries a message or a nutrient?",model:"An enzyme is a catalyst that changes how fast a reaction goes. A hormone carries a message between cells, and a vitamin is a nutrient the body cannot make, which is sometimes a helper for an enzyme."}
+    ]},
+  { skill:"Define", q:"What macromolecule category does an enzyme belong to?",
+    key:[
+      {id:"prot",label:"Protein, built from amino acids",re:[/protein|amino acid|polypeptide/],probe:"What are the four macromolecule categories, and which one is built from amino acids?",pm:"Proteins, nucleic acids, carbohydrates, and lipids. Proteins are built from amino acids, and most enzymes are proteins."},
+      {id:"ribo",label:"A few enzymes are RNA (ribozymes)",opt:true,re:[/ribozyme|rna (can|also|enzyme|catal)|catalytic rna/]}
+    ], need:1,
+    model:"Most enzymes are proteins, built from amino acids. A few, called ribozymes, are RNA.",
+    bad:[
+      {label:"Enzymes are carbohydrates",re:[/carbohydrate|sugar|carb\b/],why:"Enzyme names often end in ase and sugar names end in ose, which is an easy mix up.",ask:"Name the four macromolecule categories and what each is built from.",model:"Proteins from amino acids, nucleic acids from nucleotides, carbohydrates from sugars, and lipids from fatty acids and glycerol. Enzymes are proteins."},
+      {label:"Enzymes are nucleic acids",re:[/\bdna\b|nucleic/],not:[/protein/],why:"DNA carries the instructions for enzymes, but the enzyme itself is the protein built from those instructions.",ask:"What is the difference between a molecule that carries information and one that does a job?",model:"DNA stores the instructions. Proteins, such as enzymes, are made from those instructions and do the work."},
+      {label:"Enzymes are lipids, vitamins, or minerals",re:[/lipid|\bfats?\b|vitamin|mineral/],not:[/protein/],why:"Those are other categories. Enzymes are built from amino acids.",ask:"What is a lipid made of, and could it fold into a pocket that holds one specific molecule?",model:"Lipids are mostly hydrocarbon and nonpolar. Proteins have twenty kinds of amino acid side chains that can fold into precise pockets, which is what an enzyme needs."}
+    ]},
+  { skill:"Define", q:"What do enzymes actually do?",
+    key:[
+      {id:"speed",label:"They speed up reactions",re:[/speed|faster|accelerat|rate|catalyz|lower(s|ing)? (the )?activation/],probe:"Would the reaction happen without the enzyme? How fast?",pm:"Often yes, but far too slowly. The enzyme changes the speed."},
+      {id:"reuse",label:"They are not used up",opt:true,re:[/not (be )?(used up|consumed|changed)|unchanged|reused|re.?used|released/]},
+      {id:"eq",label:"They do not change the equilibrium or the direction",opt:true,re:[/equilibrium|same (products|direction)|does.?n.?t change (the )?(direction|equilibrium|outcome)|both directions/]}
+    ], need:1,
+    model:"Enzymes make reactions go faster by lowering the activation energy. They are not used up, and they do not change where the reaction ends up.",
+    bad:[
+      {label:"Enzymes make reactions happen",re:[/make(s)? (the )?reactions? (happen|occur|go)|allow(s)? (the )?reactions? to (happen|occur)|cause(s)? (the )?reactions?|start(s)? (the )?reactions?/],not:[/faster|speed|quick/],why:"Many reactions can happen without an enzyme. The difference is how fast.",ask:"Why does a sugar cube sit in the air for years but get burned for energy in your cells?",model:"In air the reaction is extremely slow, so the sugar is stable. In cells enzymes make the same breakdown fast enough to matter."},
+      {label:"Enzymes provide energy",re:[/give(s)? (the )?(reaction |it )?energy|provide(s)? (the )?(reaction )?energy|add(s)? energy|energy (to|for) (the )?reaction|source of energy|\bfuel\b|supplies? energy/],why:"An enzyme does not supply energy. It lowers the barrier.",ask:"Does an enzyme contain energy? Where does the energy for a reaction come from?",model:"No. The enzyme does not add energy. The energy comes from the difference in free energy between reactants and products and from heat in the surroundings. The enzyme only lowers the barrier."},
+      {label:"Enzymes only break things down",re:[/break(s|ing)? (down|apart)/],not:[/build|synthes|join|make|assembl|both/],why:"Many enzymes break things down, but not all.",ask:"Could an enzyme help build a molecule?",model:"Yes. Enzymes also join molecules together, such as DNA polymerase building DNA and the enzymes that make fats and proteins."}
+    ]},
+  { skill:"Connect", q:"Why do we need enzymes?",
+    key:[
+      {id:"slow",label:"Reactions would be too slow without them",re:[/too slow|slow(ly)?|take(s)? (too )?long|would not (happen|occur) (fast|quickly|enough)|speed|faster/],probe:"What would the rate of the reactions in a cell be without enzymes?",pm:"Far too slow to support life."},
+      {id:"temp",label:"Cells cannot raise the temperature to speed reactions",opt:true,re:[/body temp|37|too cold|low temperature|can.?t (heat|get hot)|not hot enough|high temperature|mild/]},
+      {id:"ctl",label:"Enzymes let the cell control which reactions run",opt:true,re:[/control|regulat|turn(ed)? (on|off)|specific|select/]}
+    ], need:1,
+    model:"Reactions in cells would be too slow at body temperature, and a cell cannot heat itself to speed them up. Enzymes make the reactions fast enough, and they let the cell control which reactions run and when.",
+    bad:[
+      {label:"We need enzymes only to digest food",re:[/digest|food/],not:[/slow|speed|fast|rate/],why:"Digestion is one use. Reactions happen all through the body.",ask:"Where else in the body do chemical reactions happen?",model:"In every cell: making ATP, copying DNA, building proteins, and clearing wastes. All of them need enzymes."},
+      {label:"We need enzymes to give us energy",re:[/give(s)? (us )?energy|provide(s)? (us )?energy|make(s)? (us )?energy|for energy|energy source/],why:"Enzymes help release and use energy but do not provide it.",ask:"Does an enzyme contain energy, or does it change how fast a reaction goes?",model:"It changes how fast a reaction goes. Food provides the energy, and enzymes make its release fast enough to use."},
+      {label:"We need them to stay alive (circular)",re:[/stay alive|keep (us )?alive|to live|survive|to function/],not:[/slow|speed|fast|rate/],why:"That is true but it does not say what enzymes do for life.",ask:"What would actually go wrong in the cell without enzymes?",model:"Reactions would be too slow at body temperature, so cells could not make ATP, build molecules, or copy DNA fast enough."}
+    ]}
+  ]
+},
+
+{ id:"grad",
+  statement:"Cells maintain a concentration gradient across their membrane.",
+  intro:"Notice how many words in this sentence a student may not own: concentration, gradient, membrane, and maintain.",
+  nodes:[
+  { skill:"Define", q:"What does concentration gradient mean?",
+    key:[
+      {id:"diff",label:"A difference in concentration between two places",re:[/differen(ce|t) (in|of|between)|more .{0,40}(than|and) .{0,30}less|(higher|more) .{0,40}(lower|less)|unequal|not (equal|the same|even)|uneven|high.{0,20}low|imbalance/],probe:"If both sides of a membrane had exactly the same concentration, would there be a gradient?",pm:"No. A gradient needs a difference between two places."},
+      {id:"two",label:"Two places or sides are involved",opt:true,re:[/between|across|two (areas|regions|sides|places|spots)|one side|other side|inside .{0,15}outside/]},
+      {id:"dir",label:"It sets a direction, from high to low",opt:true,re:[/high(er)?.{0,20}to.{0,10}low|down (the|its) (gradient|slope)|flow|move/]}
+    ], need:1,
+    model:"A concentration gradient is a difference in the concentration of a substance between two places, such as the two sides of a membrane. It sets a direction, because particles tend to spread from high to low.",
+    bad:[
+      {label:"Gradient is just concentration",re:[/^\s*(the )?concentration\.?\s*$|how concentrated|how much (is )?(dissolved|solute)|amount of (a )?(solute|substance)/],why:"That describes concentration. A gradient needs a difference between two places.",ask:"If both sides of a membrane have the same concentration, is there a gradient?",model:"No. A gradient needs a difference, so equal concentrations means no gradient."},
+      {label:"Gradient means equal concentration",re:[/(same|equal) concentration|equilibrium|balanced|even(ly)? distribut/],not:[/differen|unequal|not (equal|the same)/],why:"That is the opposite of a gradient.",ask:"What would a drop of dye in water look like with a gradient, and what would it look like at equilibrium?",model:"With a gradient, the dye is dense in one spot and absent elsewhere. At equilibrium it is spread evenly and has no direction to move."}
+    ]},
+  { skill:"Connect", q:"How might you create one?",
+    key:[
+      {id:"sep",label:"Separate two solutions with a barrier such as a membrane",re:[/membrane|barrier|wall|separat|divid|compartment|partition|semi/],probe:"What would happen to a gradient if there were no barrier?",pm:"Particles would spread out and the gradient would disappear."},
+      {id:"pump",label:"Move solute actively with energy, such as a pump",re:[/pump|active transport|atp|energy|transporter|carrier protein/],probe:"If solute leaks across, what could the cell do to keep the difference?",pm:"Spend energy, usually ATP, to pump the solute back against the gradient."},
+      {id:"add",label:"Put more solute on one side",opt:true,re:[/add|put|dissolve|more (solute|salt|sugar|ions?)|less (solute|salt|sugar)|dump|pour/]}
+    ], need:2,
+    model:"Put a barrier such as a membrane between two solutions and make the solute more concentrated on one side. To keep it, the cell uses pumps and spends energy, usually ATP, to move solute back against the gradient.",
+    bad:[
+      {label:"Just stir or wait",re:[/stir|mix|let it sit|leave it|wait|diffus(e|ion)/],not:[/membrane|barrier|pump|separat/],why:"Left alone, solutes spread out and the gradient fades.",ask:"What happens to a drop of dye in still water over time?",model:"It spreads until it is evenly distributed. A gradient disappears by diffusion unless something maintains it."}
+    ]},
+  { skill:"Define", q:"What does semi permeable membrane mean?",
+    key:[
+      {id:"sel",label:"It lets some substances through and not others",re:[/some.{0,50}(not|but).{0,30}other|selective|certain (molecules|substances|things|particles)|only (some|certain)|let(s)? (some|certain)|partial|allow(s)? (some|certain)|choos|pick/],probe:"If a membrane let nothing cross, could a cell take in nutrients? If it let everything cross, could a cell keep its inside different?",pm:"Neither works. A cell needs a membrane that lets some things cross and blocks others."},
+      {id:"prop",label:"What passes depends on size, charge, or polarity",opt:true,re:[/size|charge|polar|nonpolar|hydrophob|small|lipid.?soluble|water.?soluble/]}
+    ], need:1,
+    model:"A semi permeable, or selectively permeable, membrane lets some substances cross and blocks others. What gets through depends on properties such as size, charge, and polarity.",
+    bad:[
+      {label:"Nothing can cross",re:[/nothing|blocks (everything|all)|impermeable|completely (closed|blocked|sealed)/],not:[/some/],why:"A membrane that blocked everything would starve the cell.",ask:"If nothing could cross, how would a cell take in nutrients?",model:"It could not. Cells must take in nutrients and release wastes, so membranes must let some things cross."},
+      {label:"Everything can cross",re:[/everything (can )?(pass|cross|go)|anything (can )?(pass|cross|go)|completely open|all (molecules|substances|things) (can )?(pass|cross)/],why:"A membrane that passed everything could not keep the inside different from the outside.",ask:"If everything could cross freely, could a cell keep its inside different from the outside?",model:"No. The inside would match the outside, and gradients could not exist."}
+    ]},
+  { skill:"Define", q:"Are all biological membranes semi permeable?",
+    key:[
+      {id:"yes",label:"Essentially yes, all biological membranes are selective",re:[/\byes\b|all (of them|biological|membranes|are)|every|essentially|generally|most|selective|semi/],probe:"Is there a living cell whose membrane lets everything through or lets nothing through?",pm:"No. Every biological membrane is selective to some degree."},
+      {id:"why",label:"The reason: a cell cannot block everything or pass everything",re:[/nutrient|survive|life|barrier|inside|gradient|block|let(s)? (some|certain)|control|keep|cell (would|could)|selective/],probe:"Why could a cell not survive with a membrane that blocked everything, or one that passed everything?",pm:"A cell has to take in nutrients and release wastes, so it cannot block everything. It has to keep its inside different from the outside, so it cannot pass everything."},
+      {id:"deg",label:"Degrees of selectivity differ, and some have large pores",opt:true,re:[/differ|vary|degree|more .{0,20}than|pore|porin|channel|nuclear|mitochondri/]}
+    ], need:2,
+    model:"Essentially yes. A membrane that blocked everything or passed everything could not support life. But how selective each one is varies a lot, and some, such as the nuclear envelope and the outer mitochondrial membrane, have large pores.",
+    bad:[
+      {label:"Some membranes are not selective at all",re:[/^\s*no\b|not all|some (are|membranes) (not|completely)/],not:[/differ|degree|vary/],why:"Membranes differ in how selective they are, but none is completely open or completely closed.",ask:"Name a biological membrane that lets everything through or lets nothing through. Does one exist in a living cell?",model:"None does. Even the porous outer mitochondrial membrane excludes large molecules such as proteins, and even the tightest membrane lets small nonpolar molecules cross."}
+    ]},
+  { skill:"Connect", q:"Are all membranes the same permeability?",
+    key:[
+      {id:"no",label:"No, permeability differs between membranes",re:[/^\s*no\b|not the same|differ|vary|different|depends|not all|varies/],probe:"Would a red blood cell membrane and the outer membrane of a mitochondrion need to behave the same way?",pm:"No. Different cells and organelles have different jobs, so their membranes differ."},
+      {id:"why",label:"The reason: it depends on the lipids and proteins in each membrane and on the job of the cell",re:[/lipid|protein|cholesterol|composition|fatty acid|channel|transporter|cell type|function|job|needs?/],probe:"What would make a red blood cell membrane different from a mitochondrial membrane?",pm:"Different lipid and protein composition, tuned to different jobs."}
+    ], need:2,
+    model:"No. Permeability depends on the lipids and proteins in each membrane and on what the cell or organelle needs. Red blood cell membranes, nerve cell membranes, and the inner mitochondrial membrane are very different.",
+    bad:[
+      {label:"All membranes are the same",re:[/(^|\s)(yes|same|identical)\b|all (are|membranes)/],not:[/not (the )?same|differ|vary|\bno\b/],why:"Membranes share a basic design but are tuned to different jobs.",ask:"Would a red blood cell membrane and the outer membrane of a mitochondrion need to behave the same way?",model:"No. Red blood cell membranes hold in hemoglobin and let water and some ions through, while the outer mitochondrial membrane has large pores that let small molecules pass freely."}
+    ]},
+  { skill:"Connect", q:"What controls permeability?",
+    key:[
+      {id:"lip",label:"The lipid bilayer itself, including its fatty acids and fluidity",re:[/lipid|fatty acid|phospholipid|saturat|fluid|bilayer|tail|hydrophob/],probe:"What is the inside of a bilayer made of, and which molecules can dissolve in it?",pm:"Hydrocarbon tails. Small nonpolar molecules dissolve in it and cross, and ions and large polar molecules do not."},
+      {id:"mol",label:"The properties of the molecule: size, charge, polarity",re:[/size|charge|polar|nonpolar|hydrophob|small|large|solubility|lipid.?soluble/],probe:"What would a small charged ion have to do to cross an oily layer?",pm:"It would have to leave its water shell and enter an oily environment, which costs too much energy, so it cannot cross without help."},
+      {id:"prot",label:"Proteins such as channels and carriers",opt:true,re:[/protein|channel|transporter|carrier|pump|aquaporin|gate/]}
+    ], need:1,
+    model:"Two things: the make up of the lipid bilayer, including how fluid it is, and the properties of the molecule trying to cross, such as its size, charge, and polarity. Membrane proteins add a third layer of control.",
+    bad:[
+      {label:"Organelles control permeability",re:[/nucleus|mitochondri|dna|ribosom|golgi|organelle/],not:[/protein|lipid|membrane/],why:"Permeability is set by the membrane itself, not by organelles inside the cell.",ask:"What is the membrane physically made of?",model:"A bilayer of phospholipids, with cholesterol and many proteins embedded in it. Those components set what crosses."}
+    ]},
+  { skill:"Connect", q:"What else is in the membrane that might control permeability?",
+    key:[
+      {id:"prot",label:"Proteins such as channels, carriers, and pumps",re:[/protein|channel|transporter|carrier|pump|aquaporin|gate|receptor/],probe:"How could a cell let glucose or sodium across a layer that normally blocks them?",pm:"With transport proteins that provide a path, such as channels and carriers, and pumps that spend ATP."},
+      {id:"chol",label:"Cholesterol adjusts fluidity",opt:true,re:[/cholesterol|sterol/]}
+    ], need:1,
+    model:"Proteins: channels, carriers, and pumps that let specific molecules cross, many of them regulated. Cholesterol also tunes how fluid and tight the lipid layer is.",
+    bad:[
+      {label:"Things inside the cell, not the membrane",re:[/dna|ribosom|nucleus|mitochondri/],not:[/protein/],why:"Those are inside the cell, not in the membrane.",ask:"Name two kinds of molecules that are embedded in or attached to the membrane.",model:"Proteins, such as channels and carriers, lipids such as cholesterol and phospholipids, and sugars attached to some proteins and lipids on the outer surface."}
+    ]},
+  { skill:"Test", q:"What happens if the cell loses control of permeability?",
+    key:[
+      {id:"grad",label:"Gradients collapse as ions and solutes leak across",re:[/gradient|equilibrat|leak|flood|rush|diffus|ions? (move|flow|enter|leave|spread)|balance out|mix/],probe:"What would happen to the sodium and potassium gradients if the membrane leaked freely?",pm:"They would run down to equilibrium and the inside would match the outside."},
+      {id:"fate",label:"The cell swells, shrinks, or dies",re:[/swell|burst|lyse|lysis|die|death|apoptos|necros|shrink|collaps|fail/],probe:"What happens to a cell’s water balance when its solutes leak out or in freely?",pm:"Water follows the solutes, so the cell swells or shrinks and can burst."},
+      {id:"cons",label:"ATP production and signaling fail",opt:true,re:[/atp|membrane potential|signal|nerve|enzyme|energy/]}
+    ], need:2,
+    model:"Gradients collapse as ions and solutes leak across, the membrane potential is lost, water follows the solutes, and the cell swells or shrinks and eventually dies. Energy production and signaling fail along the way.",
+    bad:[
+      {label:"Nothing important happens",re:[/nothing (happens|would happen)|no (effect|change)|\bfine\b|\bokay\b/],why:"A cell depends on controlling what crosses.",ask:"What keeps the inside of a cell different from the outside?",model:"The membrane and the pumps that work against leaks. Without that control the inside would match the outside."}
+    ]},
+  { skill:"Test", q:"How do temperature and cholesterol affect permeability?",
+    key:[
+      {id:"temp",label:"Temperature changes fluidity: warmer is more fluid and permeable, colder is stiffer",re:[/(temp|heat|warm|hot|cold|cool|chill|freez).{0,80}(fluid|permeab|leak|rigid|stiff|pack|gel|loosen|move)|(fluid|permeab|leak|rigid|stiff|pack).{0,80}(temp|heat|warm|hot|cold|cool)/],probe:"What happens to lipid tails when they gain thermal energy, and what happens when they lose it?",pm:"With more energy they move and pack loosely, so the membrane is more fluid and permeable. With less energy they pack tightly and the membrane stiffens."},
+      {id:"chol",label:"Cholesterol buffers fluidity, stiffening a fluid membrane and loosening a rigid one",re:[/cholesterol.{0,100}(buffer|stabil|moderat|reduc|decreas|stiffen|rigid|fluid|pack|less permeab|tighten|keep|prevent)|(buffer|stabil|moderat).{0,40}cholesterol/],probe:"What does cholesterol do among the fatty acid tails of a bilayer?",pm:"It fits between them, restricts their motion at high temperature, and prevents tight packing at low temperature."},
+      {id:"unsat",label:"Unsaturated fatty acids loosen packing",opt:true,re:[/unsaturat|double bond|kink|\bcis\b/]}
+    ], need:2,
+    model:"Warmer temperatures make lipid tails move and pack loosely, so the membrane becomes more fluid and more permeable, and colder temperatures do the opposite. Cholesterol acts as a buffer: it restricts movement when the membrane is warm and prevents tight packing when it is cold. Cells also adjust the fraction of unsaturated fatty acids.",
+    bad:[
+      {label:"Cholesterol is the unhealthy molecule",re:[/cholesterol.{0,40}(bad|unhealthy|clog|heart|artery|disease)/],why:"That is cholesterol in the diet and blood. In a membrane it plays a structural role.",ask:"What does cholesterol do among the fatty acid tails of a bilayer?",model:"It fits between the tails, stiffens fluid membranes, and keeps rigid ones from packing too tightly."}
+    ]}
+  ]
+},
+
+{ id:"lipidE",
+  statement:"Lipids are an energy source.",
+  intro:"The phrase energy source hides several ideas a student may not have. Dig down until the foundation shows.",
+  nodes:[
+  { skill:"Define", q:"What does energy source mean?",
+    key:[
+      {id:"rel",label:"A molecule the cell can break down or oxidize to release usable energy",re:[/oxidiz|break(s|ing)? down|releas|burn|metaboliz|fuel|atp|convert(ed)? (to|into) (usable )?energy|use(d)? (by|to make)|gives? (the cell|us|the body) energy|energy to (do|power|make)/],probe:"What does the cell do to a molecule to get energy out of it?",pm:"It breaks the molecule down in steps, oxidizing it and capturing the released energy, mostly as ATP."},
+      {id:"work",label:"The cell spends the energy on work",opt:true,re:[/work|move|pump|build|synthes|power|run/]}
+    ], need:1,
+    model:"An energy source is a molecule the cell can oxidize, or break down in steps, to release energy that is captured as ATP and used for work such as pumping ions, making molecules, and moving.",
+    bad:[
+      {label:"The molecule has energy stored inside like a tank",re:[/calorie|stored energy|contains? energy|has energy|full of energy|holds energy|packed with energy/],not:[/oxidiz|break|released|burn/],why:"Calories measure the energy released when a molecule is oxidized. The energy is not sitting in the molecule like fuel in a tank.",ask:"Where does the energy come from when a molecule is oxidized?",model:"From the conversion of the molecule into more stable products, with the electrons passed to carriers. The release comes from the change, not from a stored lump of energy."}
+    ]},
+  { skill:"Define", q:"What form of energy does a cell actually spend?",
+    key:[
+      {id:"atp",label:"ATP",re:[/\batp\b|adenosine triphosphate/],probe:"What small molecule gets hydrolyzed to power pumps and reactions?",pm:"ATP."},
+      {id:"car",label:"NADH and FADH2 carry electrons that help make ATP",opt:true,re:[/nadh|fadh|electron carrier|\bnad\b|\bfad\b/]}
+    ], need:1,
+    model:"ATP. Cells spend ATP to power pumps, reactions, and movement. NADH and FADH2 are carriers that help make it.",
+    bad:[
+      {label:"Cells spend glucose or food directly",re:[/glucose|sugar|food|calorie|carbohydrate/],not:[/atp/],why:"Glucose is a fuel. It has to be turned into ATP before the cell can spend it.",ask:"Can a cell spend glucose directly to power a pump? What does it spend instead?",model:"No. The pump uses ATP. Glucose is oxidized to make ATP."},
+      {label:"Cells use heat",re:[/heat|thermal|temperature/],not:[/atp/],why:"Heat cannot drive chemical work in a cell that is at one temperature throughout.",ask:"Can a cell use heat to do chemical work when its temperature is the same everywhere?",model:"Not effectively. Cells work with chemical energy carried by ATP and by gradients."}
+    ]},
+  { skill:"Connect", q:"How do cells make ATP? List the ways.",
+    key:[
+      {id:"gly",label:"Glycolysis",re:[/glycoly/],probe:"What pathway splits glucose into two pyruvates and makes a little ATP?",pm:"Glycolysis."},
+      {id:"tca",label:"The TCA (citric acid) cycle",re:[/tca|krebs|citric acid/],probe:"What cycle in the mitochondria oxidizes acetyl CoA and loads NADH and FADH2?",pm:"The TCA cycle, also called the citric acid cycle or Krebs cycle."},
+      {id:"etc",label:"The electron transport chain and oxidative phosphorylation",re:[/electron transport|oxidative phosph|\betc\b|atp synthase|proton gradient|chemiosmo/],probe:"Where do NADH and FADH2 deliver their electrons, and what builds the proton gradient?",pm:"The electron transport chain, where the proton gradient drives ATP synthase."},
+      {id:"ferm",label:"Fermentation (it regenerates NAD+ so glycolysis can continue)",opt:true,re:[/ferment|lactate|lactic|ethanol|anaerobic/]}
+    ], need:2,
+    model:"Glycolysis makes a little ATP directly. The TCA cycle makes a little and loads NADH and FADH2 with electrons. The electron transport chain uses those electrons to build a proton gradient that drives ATP synthase and makes most of the ATP. Fermentation regenerates NAD+ so glycolysis can run without oxygen.",
+    bad:[
+      {label:"Cells make ATP by photosynthesis",re:[/photosynth|sunlight|\bsun\b/],why:"Photosynthesis makes sugar in plants. Animal cells make ATP by breaking molecules down.",ask:"Do animal cells photosynthesize? Where does their ATP come from?",model:"No. Animal cells make ATP from food molecules through glycolysis, the TCA cycle, and oxidative phosphorylation. Plants make sugar by photosynthesis and then use the same pathways."},
+      {label:"Cells make ATP by eating",re:[/\beat|food|digest|diet/],not:[/glycoly|tca|krebs|electron|oxidative|mitochondri/],why:"Food is the fuel. ATP is made inside cells from what the food provides.",ask:"Is the food itself ATP? What has to happen to it inside the cell?",model:"No. Food molecules are broken down, and the energy released is used to make ATP."}
+    ]},
+  { skill:"Test", q:"Can a lipid feed into those pathways?",
+    key:[
+      {id:"yes",label:"Yes, a lipid can feed those pathways",re:[/\byes\b|\bcan\b|able|possible|does|do\b/],probe:"Do the pieces of a lipid contain carbon and electrons that can be oxidized?",pm:"Yes. The fatty acid chains are long hydrocarbons, so they are full of carbon and electrons."},
+      {id:"how",label:"How: fatty acids are broken down by beta oxidation into acetyl CoA, which enters the TCA cycle",re:[/beta.?oxid|acetyl|fatty acid|tca|krebs|citric|break|oxidiz|chop|two carbons/],probe:"What happens to the fatty acid chains in the mitochondria, and what do they become?",pm:"They are chopped two carbons at a time into acetyl CoA, which enters the TCA cycle."},
+      {id:"gly",label:"Glycerol enters glycolysis",opt:true,re:[/glycerol|dhap|dihydroxyacetone/]}
+    ], need:2,
+    model:"Yes. A triglyceride is glycerol plus fatty acids. Glycerol enters glycolysis, and fatty acids are broken down by beta oxidation into acetyl CoA, which enters the TCA cycle, while the NADH and FADH2 go to the electron transport chain.",
+    bad:[
+      {label:"Lipids cannot be used for energy",re:[/^\s*no\b|cannot|can.?t|not able|unable|not possible/],why:"Lipids are rich in carbon and electrons, so cells can oxidize them.",ask:"What are lipids made of? Do those pieces contain carbon and electrons that can be oxidized?",model:"Triglycerides are glycerol and fatty acids. The fatty acid chains are long hydrocarbons with many carbon to hydrogen bonds, so they hold many electrons that can be removed by oxidation."}
+    ]},
+  { skill:"Connect", q:"Why do lipids give more energy per gram than carbohydrates?",
+    key:[
+      {id:"red",label:"Fatty acid carbons are more reduced, with more carbon to hydrogen bonds and fewer oxygens",re:[/reduc|carbon.{0,10}hydrogen|c.?h bonds?|hydrogen|fewer oxygen|less oxygen|less oxidized|more electrons|electron/],probe:"Compare glucose with a fatty acid. Which has more oxygen atoms per carbon?",pm:"Glucose has an oxygen on nearly every carbon, so it is already partly oxidized. A fatty acid has almost none, so more electrons are available."},
+      {id:"water",label:"Fat is stored without water",opt:true,re:[/water|hydrat|anhydrous|compact/]}
+    ], need:1,
+    model:"A fatty acid chain is almost all carbon and hydrogen, so its carbons are highly reduced and more electrons can be removed when it is oxidized. Glucose already has an oxygen on nearly every carbon. Fat is also stored without water, which makes it compact.",
+    bad:[
+      {label:"Lipids are simply bigger or denser",re:[/more carbons?|longer|bigger|larger|heavier|denser|dens(e|ity)/],not:[/reduc|hydrogen|oxygen|electron/],why:"Size alone is not the reason. Compare molecules with the same number of carbons.",ask:"Compare glucose and a fatty acid with the same number of carbons. Which has more oxygen atoms?",model:"Glucose has an oxygen on nearly every carbon, so it is already partly oxidized. A fatty acid has almost none, so more electrons are available to extract."}
+    ]}
+  ]
+}
+];
+
 /* ===== Chapters, order, and reconciliation ===== */
 var CHAPTERS={
   1:"The Foundations of Biochemistry",
@@ -1802,18 +2777,18 @@ var CHAPTERS={
 var OLD_CH={nacl:1,carbfatprot:13,dnarna:13,atp:13,oxygen:13,fat2glucose:13,gluco:13,ketone:13,heat:4,fasol:10,bilayer:11,buffer:2,inhibitor:6};
 var TOPIC_CH={cells:1,water:2,aa:3,fold:4,enz:6,carb:7,lip:10,nuc:8,energy:13,gly:13,ox:13,met:13,reg:12};
 var ORDER=[
- "c1_steady","c1_weak","c1_chiral","c1_mutation","nacl",
- "c2_solv","c2_ice","c2_osmosis","c2_hh","buffer",
- "c3_charge","c3_sds","c3_chrom","c3_perm",
- "c4_helix","heat","c4_fold","c4_thermo",
- "c5_hb","c5_bohr","c5_sickle","c5_ab","c5_myosin",
- "c6_ts","c6_kin","inhibitor","c6_ser","c6_reg",
- "c7_reduc","c7_poly","c7_glyco","c7_glyc",
- "c8_helix","c8_melt","c8_rna","c8_analog",
- "c9_pcr","c9_clone","c9_sanger","c9_crispr",
- "c10_store","fasol","c10_mem","c10_signal","c10_vit",
- "c11_cross","bilayer","c11_glut","c11_nak","c11_nerve",
- "c12_trans","c12_gpcr","c12_insulin","c12_ca","c12_cancer",
+ "c1_polymers","c1_cells","c1_groups","c1_chiral","c1_weak","c1_mutation","c1_unity","c1_steady","c1_couple","nacl",
+ "c2_solv","c2_heat","c2_ice","c2_osmosis","c2_detergent","c2_ph","c2_strongweak","c2_hh","buffer","c2_hydrolysis",
+ "c3_aaclasses","c3_essential","c3_peptide","c3_titration","c3_charge","c3_perm","c3_sds","c3_chrom","c3_seq","c3_evo",
+ "c4_levels","c4_helix","heat","c4_collagen","c4_silk","c4_domains","c4_fold","c4_thermo","c4_amyloid","c4_prion",
+ "c5_kd","c5_induced","c5_heme","c5_hb","c5_bohr","c5_sickle","c5_ab","c5_elisa","c5_myosin","c5_motors",
+ "c6_cofactor","c6_ts","c6_kin","inhibitor","c6_irrev","c6_ser","c6_phtemp","c6_isozyme","c6_reg","c6_ribozyme",
+ "c7_ring","c7_epi","c7_deriv","c7_reduc","c7_poly","c7_glycogen","c7_gag","c7_wall","c7_glyco","c7_glyc",
+ "c8_parts","c8_helix","c8_complement","c8_melt","c8_super","c8_damage","c8_epi","c8_rna","c8_rnatypes","c8_analog",
+ "c9_gel","c9_hybrid","c9_pcr","c9_qpcr","c9_cdna","c9_clone","c9_express","c9_sanger","c9_crispr","c9_genome",
+ "c10_fa","c10_tag","c10_store","fasol","c10_bile","c10_lipo","c10_chol","c10_mem","c10_signal","c10_vit",
+ "c11_cross","bilayer","c11_fluid","c11_integral","c11_channel","c11_aqp","c11_glut","c11_nak","c11_nerve","c11_endo",
+ "c12_trans","c12_gpcr","c12_nuclear","c12_insulin","c12_ca","c12_no","c12_achr","c12_cycle","c12_apop","c12_cancer",
  "carbfatprot","dnarna","atp","oxygen","fat2glucose","gluco","ketone"
 ];
 CHAINS.forEach(function(c){ if(!c.ch){ c.ch=OLD_CH[c.id]||13; } });
@@ -1851,7 +2826,7 @@ var state={ type:"all", chap:"all", deck:[], cur:null, answered:0, ch:null, bs:n
             pile:load("bioq.pile3",mem.pile), done:load("bioq.done",mem.done) };
 
 /* ===== Tabs ===== */
-var TABS=["chains","build","warm","pile"];
+var TABS=["chains","probe","build","warm","pile"];
 function showTab(name){
   TABS.forEach(function(t){
     var b=$("#tab-"+t), p=$("#panel-"+t), on=(t===name);
@@ -2327,6 +3302,359 @@ function renderWarm(){
   c.append(card);
 }
 
+
+/* ===== Dig down: answer checking and follow up questions built from the student's answer ===== */
+var memProbe={};
+var LV={solid:{t:"Solid",p:2},partial:{t:"Partial",p:1},off:{t:"Not yet",p:0},short:{t:"Too short",p:0}};
+function loadProbeScores(){ try{ var r=localStorage.getItem("bioq.probe"); return r?JSON.parse(r):{}; }catch(e){ return memProbe; } }
+function saveProbeScore(id,pct){ var s=loadProbeScores(); s[id]=pct; try{ localStorage.setItem("bioq.probe",JSON.stringify(s)); }catch(e){ memProbe=s; } }
+function anyRe(list,t){ for(var i=0;i<list.length;i++){ if(list[i].test(t)){ return true; } } return false; }
+
+function badHit(b,t){
+  if(b.not && anyRe(b.not,t)){ return false; }
+  for(var i=0;i<b.re.length;i++){
+    var m=b.re[i].exec(t);
+    if(m){
+      var pre=t.slice(Math.max(0,m.index-20),m.index);
+      if(!/(\bnot|n.?t|\bnever|\bno|\bneither|\bnor|\bwithout)\s*(\w+\s+)?$/.test(pre)){ return true; }
+    }
+  }
+  return false;
+}
+function gradeNode(node,text,noIdea){
+  var t=(text||"").replace(/\s+/g," ").toLowerCase().trim();
+  var words=t?t.split(" ").length:0;
+  var r={covered:[],missing:[],optHit:[],optMiss:[],bad:[],level:"off",noIdea:!!noIdea,short:false};
+  if(noIdea){ node.key.forEach(function(k){ (k.opt?r.optMiss:r.missing).push(k); }); return r; }
+  node.key.forEach(function(k){
+    var hit=t && anyRe(k.re,t);
+    if(k.opt){ (hit?r.optHit:r.optMiss).push(k); } else { (hit?r.covered:r.missing).push(k); }
+  });
+  node.bad.forEach(function(b){ if(t && badHit(b,t)){ r.bad.push(b); } });
+  if(words<3 && !r.covered.length && !r.optHit.length && !r.bad.length){ r.short=true; r.level="short"; return r; }
+  var need=node.need||1;
+  if(r.covered.length>=need && !r.bad.length){ r.level="solid"; }
+  else if(r.covered.length>0 || r.optHit.length>0){ r.level="partial"; }
+  else { r.level="off"; }
+  return r;
+}
+function bestAttempt(st){
+  var best=null;
+  st.attempts.forEach(function(a){ if(!best || LV[a.g.level].p>=LV[best.g.level].p){ best=a; } });
+  return best;
+}
+function finalLevel(st){ if(st.override){ return st.override; } var b=bestAttempt(st); return b?b.g.level:"off"; }
+function pill(level){ return el("span","pill "+level,LV[level].t); }
+
+function pickDetour(node,st){
+  for(var i=0;i<st.attempts.length;i++){
+    if(st.attempts[i].g.bad.length){
+      var b=st.attempts[i].g.bad[0];
+      return {kind:"mixup",label:b.label,why:b.why,q:b.ask,model:b.model};
+    }
+  }
+  var lv=finalLevel(st);
+  if(lv!=="solid"){
+    var last=st.attempts[st.attempts.length-1];
+    var miss=(bestAttempt(st)||last||{g:{missing:node.key.filter(function(k){return !k.opt;})}}).g.missing;
+    if(miss && miss.length){ return {kind:"gap",label:miss[0].label,why:"",q:miss[0].probe,model:miss[0].pm}; }
+  }
+  return null;
+}
+
+var PS=null;
+
+function renderProbeList(main){
+  var scores=loadProbeScores();
+  var card=el("div","panel-card");
+  card.append(el("h2",null,"Dig down"));
+  card.append(el("p","intro","Start from a statement a student might nod at, such as “Lipids are an energy source.” The tool asks the questions you would ask, one at a time, starting with the words in the statement. Write your answer in your own words. It checks your answer against the key ideas, points out a common mix up if it hears one, and builds the next question from what you wrote."));
+  card.append(el("p","note","How the check works: it looks for the key ideas an instructor would listen for. It is a keyword check, so a good answer in unusual words can be marked down. You can always change the grade yourself, and every answer gets a model answer to compare with."));
+  main.append(card);
+  var grid=el("div","pgrid"); grid.style.marginTop="1.2rem";
+  PROBES.forEach(function(p){
+    var c=el("div","pcard");
+    c.append(el("h3",null,p.statement), el("p","note",p.intro));
+    c.append(el("p","note",p.nodes.length+" questions"+(scores[p.id]!=null?"  Last score: "+scores[p.id]+" percent":"")));
+    var go=btn("primary","Start");
+    go.addEventListener("click",function(){ startProbe(p.id); });
+    c.append(go);
+    grid.append(c);
+  });
+  main.append(grid);
+}
+
+function startProbe(id){
+  var p=PROBES.filter(function(x){ return x.id===id; })[0]; if(!p){ return; }
+  PS={ p:p, i:0, done:false,
+       nodes:p.nodes.map(function(){ return {phase:"answer",draft:"",attempts:[],override:null,detour:null,detourDraft:"",detourShown:false,showModel:false}; }) };
+  renderProbe(true); window.scrollTo({top:0});
+}
+
+function renderProbe(focusNew){
+  var main=$("#probeMain"); main.innerHTML="";
+  if(!PS){ renderProbeList(main); return; }
+  var p=PS.p, n=p.nodes.length;
+
+  var top=el("div","row"); top.style.marginTop="0"; top.style.marginBottom="1rem";
+  var back=btn("quiet","Choose a different statement");
+  back.addEventListener("click",function(){ PS=null; renderProbe(false); window.scrollTo({top:0}); });
+  top.append(back); main.append(top);
+
+  var head=el("div","chain-head");
+  var chips=el("div","chips"); chips.append(el("span","chip blue","Dig down"), el("span","chip",n+" questions"));
+  head.append(chips, el("h2","chain-title",p.statement), el("p","note",p.intro));
+  var segs=el("div","segs");
+  for(var s=0;s<n;s++){ segs.append(el("span","seg"+((PS.done||s<PS.i)?" on":""))); }
+  head.append(segs, el("p","stage",PS.done?"Complete":"Question "+(PS.i+1)+" of "+n));
+  main.append(head);
+
+  if(PS.i>0 || PS.done){
+    var hist=el("div","hist");
+    for(var j=0;j<(PS.done?n:PS.i);j++){
+      var row=el("div");
+      row.append(pill(finalLevel(PS.nodes[j])), el("span",null,p.nodes[j].q));
+      hist.append(row);
+    }
+    main.append(hist);
+  }
+
+  if(PS.done){ main.append(renderSummary()); return; }
+  var card=renderNodeCard(PS.i);
+  main.append(card.el);
+  if(focusNew && card.ta){ card.ta.focus({preventScroll:true}); }
+}
+
+function renderNodeCard(i){
+  var node=PS.p.nodes[i], st=PS.nodes[i];
+  var card=el("div","card-step"); card.style.border="2px solid var(--blue)";
+  var out={el:card,ta:null};
+  var chips=el("div","chips"); chips.append(el("span","chip blue",node.skill));
+  card.append(chips);
+
+  if(st.phase==="detour"){
+    renderDetour(card,node,st,out); return out;
+  }
+
+  card.append(el("p","q",node.q));
+
+  if(st.phase==="answer" || st.phase==="revise"){
+    if(st.phase==="revise"){
+      var hint=st.attempts[st.attempts.length-1].g.missing[0];
+      var c=el("div","callout");
+      c.append(el("span","lbl","Try this before you revise"));
+      c.append(el("p",null,hint&&hint.probe?hint.probe:"Add the key idea you left out and say how it connects to the rest."));
+      card.append(c);
+    }
+    var inp=inputBlock(st.phase==="revise"?"Your revised answer":"Your answer, in your own words",5);
+    inp.ta.value=st.draft; out.ta=inp.ta;
+    card.append(inp.wrap);
+    var row=el("div","row");
+    var go=btn("primary",st.phase==="revise"?"Check my revision":"Check my answer");
+    go.disabled=inp.ta.value.trim().length<1;
+    row.append(go);
+    var skip=null;
+    if(st.phase==="answer"){ skip=btn("quiet","I have no idea, show me"); row.append(skip); }
+    card.append(row);
+    inp.ta.addEventListener("input",function(){ st.draft=inp.ta.value; go.disabled=inp.ta.value.trim().length<1; });
+    go.addEventListener("click",function(){
+      var txt=inp.ta.value.trim();
+      st.attempts.push({text:txt,g:gradeNode(node,txt,false)});
+      st.phase="feedback"; st.draft=""; renderProbe(true);
+    });
+    if(skip){ skip.addEventListener("click",function(){
+      st.attempts.push({text:"",g:gradeNode(node,"",true)});
+      st.showModel=true; st.phase="feedback"; renderProbe(true);
+    }); }
+    return out;
+  }
+
+  /* feedback phase */
+  var att=st.attempts[st.attempts.length-1], g=att.g;
+  if(att.text){ var y=el("div","yours"); y.append(el("span","lbl",st.attempts.length>1?"Your revised answer":"Your answer"), el("p",null,att.text)); card.append(y); }
+
+  var lvl=finalLevel(st);
+  var fb=el("div","fb");
+  var line=el("div"); line.style.display="flex"; line.style.gap=".7rem"; line.style.alignItems="center"; line.style.flexWrap="wrap";
+  line.append(pill(lvl), el("span","note",LV[lvl].p+" of 2 points"));
+  if(st.override){ line.append(el("span","note","You adjusted this grade.")); }
+  if(st.attempts.length>1){
+    var f0=st.attempts[0].g.level;
+    line.append(el("span","note","First try: "+LV[f0].t+(LV[lvl].p>LV[f0].p?", improved with your revision":"")));
+  }
+  fb.append(line);
+
+  if(g.noIdea){
+    fb.append(el("p","note","That is a fine place to start. Read the strong answer below, then we will build a question from the idea you were missing."));
+  } else if(g.short){
+    fb.append(el("p","note","Add a sentence or two so the check has something to work with. A short fragment cannot show your reasoning."));
+  }
+
+  var got=g.covered.concat(g.optHit);
+  if(got.length){
+    var gb=el("div"); gb.append(el("span","lbl","What your answer covered"));
+    var ul=el("ul"); got.forEach(function(k){ ul.append(el("li",null,"✓ "+k.label)); }); gb.append(ul); fb.append(gb);
+  }
+  if(g.missing.length && !g.short){
+    var mb=el("div"); mb.append(el("span","lbl","Still missing"));
+    var ul2=el("ul"); g.missing.forEach(function(k){ ul2.append(el("li",null,k.label)); }); mb.append(ul2); fb.append(mb);
+  }
+  if(g.bad.length){
+    var cb=el("div","callout");
+    cb.append(el("span","lbl","This sounds like a common mix up"));
+    cb.append(el("p",null,g.bad[0].why));
+    fb.append(cb);
+  }
+  if(g.optMiss.length && lvl==="solid" && !g.short){
+    var ob=el("div"); ob.append(el("span","lbl","To strengthen it, you could also add"));
+    var ul3=el("ul"); g.optMiss.forEach(function(k){ ul3.append(el("li",null,k.label)); }); ob.append(ul3); fb.append(ob);
+  }
+  card.append(fb);
+
+  if(st.showModel){ var m=modelBlock("A strong answer",node.model); m.style.marginTop="1rem"; card.append(m); }
+
+  var acts=el("div","row");
+  var canRevise=(lvl!=="solid" && st.attempts.length<2 && !g.noIdea);
+  if(canRevise){
+    var rv=btn("primary","Revise my answer");
+    rv.addEventListener("click",function(){ st.draft=att.text; st.phase="revise"; renderProbe(true); });
+    acts.append(rv);
+  }
+  if(!st.showModel){
+    var sm=btn("secondary","Show a strong answer");
+    sm.addEventListener("click",function(){ st.showModel=true; renderProbe(false); });
+    acts.append(sm);
+  }
+  var cont=btn(canRevise?"quiet":"primary","Continue");
+  cont.addEventListener("click",function(){
+    st.detour=pickDetour(node,st);
+    if(st.detour){ st.phase="detour"; renderProbe(true); } else { advanceProbe(); }
+  });
+  acts.append(cont);
+  card.append(acts);
+
+  var adj=el("div","row"); adj.style.marginTop=".6rem";
+  adj.append(el("span","note","Grade looks off? Mark it yourself:"));
+  [["solid","Solid"],["partial","Partial"],["off","Not yet"]].forEach(function(o){
+    var b=btn("quiet",o[1]); b.style.minHeight="2rem"; b.style.padding=".2rem .4rem";
+    b.addEventListener("click",function(){ st.override=o[0]; renderProbe(false); });
+    adj.append(b);
+  });
+  card.append(adj);
+  return out;
+}
+
+function renderDetour(card,node,st,out){
+  var d=st.detour;
+  var c=el("div","callout");
+  c.append(el("span","lbl",d.kind==="mixup"?"Let us step back":"A question built from what was missing"));
+  if(d.kind==="mixup"){ c.append(el("p",null,d.why)); }
+  else { c.append(el("p",null,"Your answer was missing: "+d.label+".")); }
+  card.append(c);
+  card.append(el("p","q",d.q));
+  var inp=inputBlock("Your thinking",3); inp.ta.value=st.detourDraft; out.ta=inp.ta;
+  card.append(inp.wrap);
+  inp.ta.addEventListener("input",function(){ st.detourDraft=inp.ta.value; });
+  var row=el("div","row");
+  if(!st.detourShown){
+    var show=btn("primary","Show the answer");
+    show.addEventListener("click",function(){ st.detourShown=true; renderProbe(false); });
+    row.append(show);
+  } else {
+    var m=modelBlock("Answer",d.model); m.style.marginTop="1rem"; card.append(m);
+    var nx=btn("primary",PS.i<PS.p.nodes.length-1?"Next question":"See my results");
+    nx.addEventListener("click",function(){ advanceProbe(); });
+    row.append(nx);
+  }
+  card.append(row);
+}
+
+function advanceProbe(){
+  if(PS.i<PS.p.nodes.length-1){ PS.i++; renderProbe(true); window.scrollTo({top:0}); }
+  else { PS.done=true; var s=computeSummary(); saveProbeScore(PS.p.id,s.pct); renderProbe(false); window.scrollTo({top:0}); }
+}
+
+function computeSummary(){
+  var pts=0, max=PS.p.nodes.length*2, skills={}, focus=[], mixups=[];
+  PS.p.nodes.forEach(function(node,i){
+    var st=PS.nodes[i], lv=finalLevel(st), p=LV[lv].p;
+    pts+=p;
+    var sk=node.skill; skills[sk]=skills[sk]||{p:0,m:0}; skills[sk].p+=p; skills[sk].m+=2;
+    var b=bestAttempt(st);
+    if(lv!=="solid" && b){ b.g.missing.forEach(function(k){ if(focus.indexOf(k.label)===-1){ focus.push(k.label); } }); }
+    if(st.detour && st.detour.kind==="mixup" && mixups.indexOf(st.detour.label)===-1){ mixups.push(st.detour.label); }
+  });
+  return {pts:pts,max:max,pct:Math.round(100*pts/max),skills:skills,focus:focus,mixups:mixups};
+}
+
+function bandNote(pct){
+  if(pct>=85){ return "Solid. You own the words and the logic. Try this next: explain the statement to a classmate without using any of the key terms."; }
+  if(pct>=65){ return "Mostly there. Revisit the questions marked Partial, and use the missing ideas below to build the link between steps."; }
+  if(pct>=40){ return "You have some of the pieces, but they are not yet connected. Start with the first question marked Partial or Not yet and rebuild from there, in order."; }
+  return "Go back to the first question and work from the definitions. That is a normal place to start, and the list below shows exactly which ideas to review.";
+}
+
+function renderSummary(){
+  var s=computeSummary(), p=PS.p;
+  var card=el("div","panel-card");
+  card.append(el("h2",null,"Your reasoning profile"));
+  var big=el("p"); big.style.font="700 2.2rem Bitter, Georgia, serif"; big.style.margin=".3rem 0";
+  big.textContent=s.pts+" of "+s.max+" points, "+s.pct+" percent";
+  card.append(big, el("p","intro",bandNote(s.pct)));
+
+  var sk=el("div"); sk.append(el("span","lbl","By skill"));
+  var ul=el("ul"); ul.style.margin=".3rem 0 1rem"; ul.style.paddingLeft="1.2rem";
+  var notes={Define:"knowing what the words mean",Connect:"linking one idea to the next",Test:"applying the idea to a new case",Conclude:"stating the answer and its limits"};
+  Object.keys(s.skills).forEach(function(k){
+    ul.append(el("li",null,k+" ("+notes[k]+"): "+s.skills[k].p+" of "+s.skills[k].m));
+  });
+  sk.append(ul); card.append(sk);
+
+  var qb=el("div"); qb.append(el("span","lbl","Question by question"));
+  var list=el("div","hist"); list.style.marginTop=".4rem";
+  p.nodes.forEach(function(node,i){
+    var st=PS.nodes[i], lv=finalLevel(st), row=el("div");
+    row.append(pill(lv), el("span",null,node.q));
+    var tags=[];
+    if(st.attempts.length>1){ tags.push("revised"); }
+    if(st.override){ tags.push("graded by you"); }
+    if(tags.length){ row.append(el("span","note","("+tags.join(", ")+")")); }
+    list.append(row);
+  });
+  qb.append(list); card.append(qb);
+
+  if(s.mixups.length){
+    var mb=el("div","callout"); mb.append(el("span","lbl","Mix ups that came up"));
+    var u2=el("ul"); s.mixups.forEach(function(x){ u2.append(el("li",null,x)); }); mb.append(u2);
+    mb.style.marginTop="1rem"; card.append(mb);
+  }
+  if(s.focus.length){
+    var fb=el("div","model"); fb.style.marginTop="1rem"; fb.append(el("span","lbl","Where to focus next"));
+    var u3=el("ul"); s.focus.forEach(function(x){ u3.append(el("li",null,x)); }); fb.append(u3); card.append(fb);
+  }
+
+  var row=el("div","row");
+  var again=btn("primary","Try this statement again");
+  again.addEventListener("click",function(){ startProbe(p.id); });
+  var other=btn("secondary","Choose a different statement");
+  other.addEventListener("click",function(){ PS=null; renderProbe(false); window.scrollTo({top:0}); });
+  var copy=btn("secondary","Copy my session"); var msg=el("span","note","");
+  copy.addEventListener("click",function(){
+    var lines=[p.statement,"Score: "+s.pts+" of "+s.max+" ("+s.pct+" percent)",""];
+    p.nodes.forEach(function(node,i){
+      var st=PS.nodes[i];
+      lines.push((i+1)+". "+node.q+" ["+LV[finalLevel(st)].t+"]");
+      st.attempts.forEach(function(a,k){ lines.push((k?"Revised: ":"Answer: ")+(a.text||"(no answer)")); });
+      lines.push("");
+    });
+    try{ navigator.clipboard.writeText(lines.join("\n")).then(function(){ msg.textContent="Copied."; },function(){ msg.textContent="Copy did not work here."; }); }
+    catch(e){ msg.textContent="Copy did not work here."; }
+  });
+  row.append(again,other,copy,msg);
+  card.append(row);
+  return card;
+}
+
 /* ===== Start ===== */
 buildChainNav();
 renderChain(false);
@@ -2335,6 +3663,7 @@ buildChapterSelect();
 updatePileCount();
 updateProgress();
 rebuildDeck();
+renderProbe(false);
 })();
 </script>
 </body>
