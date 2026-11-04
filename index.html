@@ -88,6 +88,19 @@ details.chap[open]>summary .cnum::after{content:" (open)";font-weight:500;color:
 .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:.7rem;align-items:flex-start}
 .pcard h3{font-size:1.2rem}
 
+
+/* quick check */
+.qc{display:flex;flex-wrap:wrap;gap:.4rem .8rem;align-items:center;margin:0 0 .6rem}
+.ideas{list-style:none;margin:.3rem 0 0;padding:0;display:grid;gap:.4rem}
+.ideas li{padding:.45rem .75rem;border-left:4px solid var(--line);border-radius:6px;background:rgba(127,127,127,.07)}
+.ideas li.covered{border-left-color:var(--green)}
+.ideas li.partial{border-left-color:var(--amber)}
+.ideas li.missing{border-left-color:var(--rose)}
+.ideas .mk{font-weight:700;margin-right:.5rem}
+.ideas li.covered .mk{color:var(--green)}
+.ideas li.partial .mk{color:var(--amber)}
+.ideas li.missing .mk{color:var(--rose)}
+
 /* hero */
 .hero{background:var(--navy);color:var(--navy-ink)}
 .hero-in{max-width:68rem;margin:0 auto;padding:2.5rem 1.25rem 2.1rem;display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:flex-end;justify-content:space-between}
@@ -2978,9 +2991,143 @@ function openChain(id){
   var c=chainById(id); if(!c){ return; }
   state.openChaps[c.ch]=true;
   state.ch={ c:c, checked:0, ans:[], finalDone:false, finalAns:"", applyChecked:0, applyAns:[],
-             useCold:state.cold, coldDone:!state.cold, coldAns:"" };
+             useCold:state.cold, coldDone:!state.cold, coldAns:"", grades:[], over:[] };
   buildChainNav(); renderChain(true); window.scrollTo({top:0});
 }
+
+
+/* ===== Quick check grader: compares a student answer with the model answer, idea by idea ===== */
+var STOPW={};
+("a an the and or but if then of to in on at by for with from as is are was were be been being it its this that these those they them their there here which who what when where why how can could may might will would should do does did not so than too very also just into about because while after before between through per has have had each both any all some such we you your our us i still everything anything often usually many much make makes made called using used use like way even once").split(" ").forEach(function(w){ STOPW[w]=1; });
+var SYNG=[
+ ["speed","fast","faster","quick","accelerat","rate","catalyz","catalyst"],
+ ["break","cleav","cut","split","hydrolyz","degrad","breakdown","digest"],
+ ["join","link","connect","attach","combin","condens"],
+ ["bind","stick","adhere","grab","dock"],
+ ["charg","ionic","ion"],
+ ["large","big","huge","bulky"],
+ ["small","tiny","little"],
+ ["energy","atp","fuel","power"],
+ ["silent","nothing","none","unchanged","harmless","neutral","identical"],
+ ["stop","nonsense","terminat","truncat","shortened","premature"],
+ ["missense","swap","replac","substitut","new","different","another","wrong","alter"],
+ ["insert","delet","frameshift","frame","shift","scrambl","addition"],
+ ["water","aqueous","hydrat"],
+ ["nonpolar","hydrophobic","oily","greasy","hydrocarbon"],
+ ["polar","hydrophilic"],
+ ["membrane","bilayer","barrier"],
+ ["gradient","unequal","imbalance"],
+ ["pump","transporter","carrier"],
+ ["heat","temperature","thermal","warm","hot"],
+ ["cold","cool","chill","freez"],
+ ["unfold","denatur","unravel"],
+ ["shape","structure","fold","conformation"],
+ ["increase","rise","higher","raise","grow"],
+ ["decrease","fall","lower","reduce","drop","less"],
+ ["block","inhibit","prevent","interfere","obstruct"],
+ ["dna","gene","genetic","genome"],
+ ["rna","mrna","transcript"],
+ ["sugar","carbohydrate","glucose","saccharide"],
+ ["fat","lipid","triglyceride","oil"],
+ ["die","death","dead","apoptosis","necrosis","lysis","kill"],
+ ["essential","needed","required","necessary","must"],
+ ["strong","tight","tightly","firm"],
+ ["weak","loose","loosely"],
+ ["signal","message","messenger"],
+ ["mutation","variant","mutant"],
+ ["disease","disorder","illness","condition","syndrome"],
+ ["drug","medicine","medication","therapy","treatment"],
+ ["oxidiz","oxidation","burn"]
+];
+var SYNMAP={};
+function skey(w){
+  w=w.toLowerCase().replace(/[^a-z0-9]/g,"");
+  if(!w){ return ""; }
+  if(w.length>5 && /ing$/.test(w)){ w=w.slice(0,-3); }
+  else if(w.length>4 && /ed$/.test(w)){ w=w.slice(0,-2); }
+  else if(w.length>4 && /es$/.test(w)){ w=w.slice(0,-2); }
+  else if(w.length>3 && /s$/.test(w) && !/ss$/.test(w)){ w=w.slice(0,-1); }
+  if(/([bdgmnprt])\1$/.test(w)){ w=w.slice(0,-1); }
+  return w.slice(0,5);
+}
+SYNG.forEach(function(g,i){ g.forEach(function(w){ SYNMAP[skey(w)]="g"+i; }); });
+function kid(tok){ var k=skey(tok); return SYNMAP[k]||k; }
+function toks(text){ return (text.toLowerCase().match(/[a-z0-9]+/g)||[]); }
+function sentences(text){ return text.replace(/([.!?])\s+(?=[A-Z])/g,"$1|||").split("|||").map(function(s){ return s.trim(); }).filter(Boolean); }
+function sentKeys(s){
+  var seen={}, out=[];
+  toks(s).forEach(function(t){
+    if(STOPW[t] || t.length<3){ return; }
+    var k=kid(t);
+    if(k.length<2 || seen[k]){ return; }
+    seen[k]=1; out.push(k);
+  });
+  return out;
+}
+var DF=null, NS=0;
+function buildDF(){
+  DF={}; NS=0;
+  function add(t){ sentences(t).forEach(function(s){ NS++; sentKeys(s).forEach(function(k){ DF[k]=(DF[k]||0)+1; }); }); }
+  CHAINS.forEach(function(c){ c.steps.forEach(function(s){ add(s[1]); }); add(c.final); });
+  Q.forEach(function(x){ add(x.answer); });
+}
+function wt(k){ return Math.log((NS+1)/((DF[k]||0)+1)); }
+
+function gradeText(model,student){
+  var t=(student||"").trim();
+  if(!t){ return null; }
+  if(!DF){ buildDF(); }
+  var words=toks(t).length;
+  var sset={};
+  toks(t).forEach(function(x){ if(!STOPW[x]){ sset[kid(x)]=1; } });
+  var sents=sentences(model), res=[], total=0;
+  sents.forEach(function(s){
+    var keys=sentKeys(s).map(function(k){ return {k:k,w:wt(k)}; }).sort(function(a,b){ return b.w-a.w; }).slice(0,5);
+    var tw=0, mw=0;
+    keys.forEach(function(o){ tw+=o.w; if(sset[o.k]){ mw+=o.w; } });
+    var f=tw?mw/tw:0;
+    var st=f>=0.33?"covered":(f>=0.15?"partial":"missing");
+    res.push({text:s,status:st,f:f});
+    total+= st==="covered"?1:(st==="partial"?0.5:0);
+  });
+  var n=sents.length, score=n?total/n:0;
+  var level=(words<3 && score<0.8) ? "short" : (score>=0.8?"solid":(score>=0.35?"partial":"off"));
+  var cov=res.filter(function(r){ return r.status==="covered"; }).length;
+  return {level:level,score:score,sentences:res,n:n,covered:cov,words:words};
+}
+
+function gradedModel(label,text,gr,cur,onOver){
+  var m=el("div","model");
+  m.append(el("span","lbl",label));
+  if(!gr){ m.append(el("p",null,text)); return m; }
+  var lv=cur||gr.level;
+  var head=el("div","qc");
+  head.append(pill(lv));
+  head.append(el("span","note", gr.n>1 ? "Your answer covered "+gr.covered+" of "+gr.n+" ideas." : (gr.level==="solid" ? "Your answer matches the key idea." : "Your answer only partly matches the key idea.")));
+  if(cur){ head.append(el("span","note","You adjusted this grade.")); }
+  m.append(head);
+  if(gr.n>1){
+    var ul=el("ul","ideas");
+    gr.sentences.forEach(function(s){
+      var li=el("li",s.status);
+      li.append(el("span","mk",s.status==="covered"?"✓":(s.status==="partial"?"◐":"○")), document.createTextNode(s.text));
+      ul.append(li);
+    });
+    m.append(ul);
+  } else { m.append(el("p",null,text)); }
+  if(onOver){
+    var adj=el("div","row"); adj.style.marginTop=".5rem";
+    adj.append(el("span","note","Grade looks off? Mark it yourself:"));
+    [["solid","Solid"],["partial","Partial"],["off","Not yet"]].forEach(function(o){
+      var b=btn("quiet",o[1]); b.style.minHeight="2rem"; b.style.padding=".2rem .4rem";
+      b.addEventListener("click",function(){ onOver(o[0]); });
+      adj.append(b);
+    });
+    m.append(adj);
+  }
+  return m;
+}
+
 
 /* ===== Reasoning chains: rendering ===== */
 function stepRow(label,mode){
@@ -3030,6 +3177,7 @@ function renderChain(focusNew){
   var segs=el("div","segs");
   for(var s=0;s<total;s++){ segs.append(el("span","seg"+(s<stage?" on":""))); }
   head.append(segs, el("p","stage", stage>=total ? "Complete" : (ch.useCold&&!ch.coldDone ? "First, try it cold" : "Step "+(stage+1)+" of "+total)));
+  head.append(el("p","note","After each step you get a quick check. It marks which ideas in the model answer your answer covered (check mark), partly covered (half circle), or missed (empty circle). It is a keyword check, so you can change a grade yourself."));
   main.append(head);
 
   var th=el("div","steps"), activeTa=null;
@@ -3063,7 +3211,7 @@ function renderChain(focusNew){
       var st=c.steps[i];
       if(i<ch.checked){
         var d=stepRow(String(i+1),"done");
-        d.card.append(el("p","q",st[0]), yoursBlock(ch.ans[i],"You skipped this step."), modelBlock("Model answer",st[1]));
+        d.card.append(el("p","q",st[0]), yoursBlock(ch.ans[i],"You skipped this step."), gradedModel("Model answer",st[1],ch.grades[i]||null,ch.over[i]||null,ch.grades[i]?function(v){ ch.over[i]=v; renderChain(false); }:null));
         if(st[2]){ d.card.append(el("p","bridge",st[2])); }
         th.append(d.row);
       } else {
@@ -3075,7 +3223,7 @@ function renderChain(focusNew){
         var skip=btn("quiet","I have no idea, show the answer");
         row.append(go,skip); a.card.append(row);
         inp.ta.addEventListener("input",function(){ go.disabled = inp.ta.value.trim().length<3; });
-        function advance(txt){ ch.ans[i]=txt; ch.checked=i+1; renderChain(true); }
+        function advance(txt){ ch.ans[i]=txt; ch.grades[i]=txt?gradeText(st[1],txt):null; ch.checked=i+1; renderChain(true); }
         go.addEventListener("click",function(){ advance(inp.ta.value.trim()); });
         skip.addEventListener("click",function(){ advance(""); });
         th.append(a.row); activeTa=inp.ta;
@@ -3100,7 +3248,34 @@ function renderChain(focusNew){
     } else {
       var z=stepRow("✓","done");
       if(ch.finalAns){ var yy=el("div","yours"); yy.append(el("span","lbl","Your answer after the steps"), el("p",null,ch.finalAns)); z.card.append(yy); }
-      if(ch.coldAns){ z.card.append(el("p","note cold-note","Compare this with your first attempt above. What did the steps change about your answer?")); }
+      var tl={solid:0,partial:0,off:0,skip:0};
+      c.steps.forEach(function(s2,k2){
+        if(!ch.ans[k2]){ tl.skip++; }
+        else { var lv2=ch.over[k2]||(ch.grades[k2]&&ch.grades[k2].level)||"off"; if(lv2==="short"){ lv2="off"; } tl[lv2]++; }
+      });
+      z.card.append(el("p","note","Your steps: "+tl.solid+" solid, "+tl.partial+" partial, "+tl.off+" not yet, "+tl.skip+" skipped."));
+      var fg=ch.finalAns?gradeText(c.final,ch.finalAns):null;
+      var cg=ch.coldAns?gradeText(c.final,ch.coldAns):null;
+      if(fg||cg){
+        var cp=el("div","model"); cp.style.marginBottom=".9rem";
+        cp.append(el("span","lbl","How your answers compared with the conclusion"));
+        var cr=el("div","qc");
+        if(cg){ cr.append(el("span","note","First attempt:"), pill(cg.level)); }
+        if(fg){ cr.append(el("span","note",cg?"After the steps:":"Your answer:"), pill(fg.level)); }
+        cp.append(cr);
+        if(cg&&fg){
+          var rank={short:0,off:0,partial:1,solid:2};
+          cp.append(el("p","note", rank[fg.level]>rank[cg.level] ? "Your answer improved after the steps. Look at what you added." : (rank[fg.level]===rank[cg.level] ? "Your answer stayed at the same level. Compare the two and ask which idea is still missing." : "Your first attempt was stronger. Reread the steps to see which idea slipped.")));
+        }
+        if(fg && fg.n>1){
+          var ul2=el("ul","ideas");
+          fg.sentences.forEach(function(s3){ var li2=el("li",s3.status); li2.append(el("span","mk",s3.status==="covered"?"✓":(s3.status==="partial"?"◐":"○")), document.createTextNode(s3.text)); ul2.append(li2); });
+          cp.append(ul2);
+        }
+        z.card.append(cp);
+      } else if(ch.coldAns){
+        z.card.append(el("p","note cold-note","Compare this with your first attempt above. What did the steps change about your answer?"));
+      }
       var pu=el("div","putting"); pu.append(el("h3",null,"Putting it together"), el("p",null,c.final));
       z.card.append(pu);
       var pt=el("div","pattern"); pt.append(el("span","lbl","The pattern to take with you"), el("p",null,c.pattern));
@@ -3287,7 +3462,8 @@ function renderWarm(){
   inp.ta.addEventListener("input",function(){ show.disabled = inp.ta.value.trim().length<3; });
   function doReveal(){
     row.hidden=true;
-    var a=modelBlock("Model answer",cur.answer); a.style.marginTop="1.2rem";
+    var typed=inp.ta.value.trim(); var gr0=typed?gradeText(cur.answer,typed):null;
+    var a=gradedModel("Model answer",cur.answer,gr0,null,null); a.style.marginTop="1.2rem";
     var t=modelBlock("How to think about it",cur.think); t.style.marginTop=".8rem";
     var act=el("div","row");
     var good=btn("primary","Got it, next question");
